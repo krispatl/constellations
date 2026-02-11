@@ -1,0 +1,990 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>Constellation Labs — Shared Infrastructure for Digital Culture</title>
+  <style>
+    :root{
+      --bg: #070A0F;
+      --panel: rgba(255,255,255,0.06);
+      --panel2: rgba(255,255,255,0.04);
+      --stroke: rgba(255,255,255,0.12);
+      --text: rgba(255,255,255,0.88);
+      --muted: rgba(255,255,255,0.62);
+      --muted2: rgba(255,255,255,0.45);
+      --good: #7CFFB2;
+      --warn: #FFE08A;
+      --accent: #B7B9FF;
+      --accent2:#7CE0FF;
+      --shadow: 0 20px 60px rgba(0,0,0,0.55);
+      --radius: 18px;
+      --radius2: 26px;
+      --maxw: 1180px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 700px at 15% 10%, rgba(183,185,255,0.18), transparent 55%),
+                  radial-gradient(900px 600px at 85% 22%, rgba(124,224,255,0.15), transparent 55%),
+                  radial-gradient(900px 800px at 65% 85%, rgba(124,255,178,0.10), transparent 60%),
+                  var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      overflow-x:hidden;
+    }
+
+    /* Subtle star grid */
+    .bggrid{
+      position:fixed; inset:0;
+      pointer-events:none;
+      background-image:
+        radial-gradient(rgba(255,255,255,0.10) 1px, transparent 1px),
+        radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 32px 32px, 96px 96px;
+      background-position: 0 0, 30px 40px;
+      opacity:0.22;
+      filter: blur(0.2px);
+      mix-blend-mode: screen;
+    }
+    .noise{
+      position:fixed; inset:-20%;
+      pointer-events:none;
+      opacity:0.06;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+      transform: rotate(3deg);
+      mix-blend-mode: overlay;
+    }
+
+    .wrap{
+      width:min(var(--maxw), calc(100% - 48px));
+      margin:0 auto;
+      position:relative;
+    }
+
+    /* Top bar */
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter: blur(12px);
+      background: linear-gradient(to bottom, rgba(7,10,15,0.85), rgba(7,10,15,0.55));
+      border-bottom:1px solid rgba(255,255,255,0.08);
+    }
+    .topbar .inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 14px 0;
+      gap:16px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width: 280px;
+    }
+    .logo{
+      width:36px; height:36px;
+      border-radius: 12px;
+      background:
+        radial-gradient(10px 10px at 25% 25%, rgba(255,255,255,0.55), transparent 55%),
+        radial-gradient(16px 16px at 70% 70%, rgba(124,224,255,0.55), transparent 60%),
+        linear-gradient(135deg, rgba(183,185,255,0.55), rgba(124,255,178,0.30));
+      border:1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      position:relative;
+      overflow:hidden;
+    }
+    .logo:after{
+      content:"";
+      position:absolute; inset:-40%;
+      background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.28), transparent 55%);
+      transform: rotate(18deg);
+      animation: drift 6s ease-in-out infinite alternate;
+    }
+    @keyframes drift{
+      from{ transform:translate3d(-10px,-6px,0) rotate(18deg); }
+      to{ transform:translate3d(10px,6px,0) rotate(18deg); }
+    }
+    .brand h1{
+      margin:0;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.82);
+      line-height:1.2;
+    }
+    .brand .sub{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      margin-top:2px;
+      letter-spacing: 0.02em;
+    }
+    .nav{
+      display:flex; gap:10px; flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .chip{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,0.78);
+      padding: 10px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      text-decoration:none;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      white-space:nowrap;
+    }
+    .chip:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.18);
+    }
+    .chip.primary{
+      border-color: rgba(183,185,255,0.35);
+      background: linear-gradient(135deg, rgba(183,185,255,0.18), rgba(124,224,255,0.12));
+    }
+
+    /* Hero */
+    .hero{
+      padding: 56px 0 24px;
+    }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items:stretch;
+    }
+    @media (max-width: 920px){
+      .heroGrid{ grid-template-columns:1fr; }
+      .brand{ min-width: unset; }
+    }
+    .card{
+      border-radius: var(--radius2);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border:1px solid rgba(255,255,255,0.12);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .card.pad{ padding: 22px; }
+    .kicker{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,0.70);
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .dot{
+      width:8px; height:8px; border-radius:99px;
+      background: var(--good);
+      box-shadow: 0 0 22px rgba(124,255,178,0.40);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{ transform:scale(0.85); opacity:.7; }
+      50%{ transform:scale(1.15); opacity:1; }
+    }
+    .title{
+      margin: 14px 0 10px;
+      font-size: clamp(28px, 3.8vw, 48px);
+      line-height:1.05;
+      letter-spacing: -0.02em;
+    }
+    .lead{
+      margin: 0;
+      font-size: 16px;
+      line-height:1.55;
+      color: rgba(255,255,255,0.78);
+      max-width: 62ch;
+    }
+    .metaRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 18px;
+    }
+    .pill{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,0.78);
+      padding: 10px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.15);
+      display:flex; align-items:center; gap:8px;
+    }
+    .pill b{ color: rgba(255,255,255,0.90); font-weight:600; }
+
+    /* Right: Program console */
+    .consoleHeader{
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 14px 16px;
+      border-bottom:1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.18);
+    }
+    .windowDots{
+      display:flex; gap:7px; align-items:center;
+    }
+    .wd{ width:10px; height:10px; border-radius:50%; opacity:0.85; }
+    .wd.r{ background:#FF6B6B; }
+    .wd.y{ background:#FFD56B; }
+    .wd.g{ background:#63FFB0; }
+    .consoleTitle{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,0.72);
+      letter-spacing: 0.03em;
+    }
+    .console{
+      padding: 14px 16px 18px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,0.78);
+      line-height:1.55;
+      height: 330px;
+      overflow:hidden;
+      position:relative;
+    }
+    .console pre{
+      margin:0;
+      white-space:pre-wrap;
+      word-break:break-word;
+    }
+    .cursor{
+      display:inline-block;
+      width: 9px;
+      height: 14px;
+      background: rgba(255,255,255,0.70);
+      margin-left: 6px;
+      transform: translateY(2px);
+      animation: blink 1s steps(2,end) infinite;
+      border-radius: 2px;
+      opacity:0.8;
+    }
+    @keyframes blink{ 50%{ opacity:0; } }
+
+    .scanline{
+      position:absolute; left:0; right:0; top:-30%;
+      height: 30%;
+      background: linear-gradient(to bottom, transparent, rgba(124,224,255,0.08), transparent);
+      animation: scan 4.6s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes scan{
+      from{ transform:translateY(0); }
+      to{ transform:translateY(520px); }
+    }
+
+    /* Sections */
+    section{
+      padding: 32px 0;
+    }
+    .sectionTitle{
+      display:flex; align-items:baseline; justify-content:space-between;
+      gap:16px;
+      margin-bottom: 14px;
+    }
+    .sectionTitle h2{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.80);
+    }
+    .sectionTitle .hint{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 860px){
+      .grid2{ grid-template-columns: 1fr; }
+    }
+
+    .block{
+      border-radius: var(--radius);
+      border:1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.035);
+      padding: 18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .block:before{
+      content:"";
+      position:absolute; inset:-1px;
+      background: radial-gradient(480px 240px at 15% 20%, rgba(183,185,255,0.10), transparent 60%),
+                  radial-gradient(420px 260px at 85% 85%, rgba(124,224,255,0.08), transparent 55%);
+      opacity:0.85;
+      pointer-events:none;
+    }
+    .block > *{ position:relative; z-index:1; }
+    .block h3{
+      margin:0 0 8px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.88);
+      letter-spacing: -0.01em;
+    }
+    .block p{
+      margin:0;
+      color: rgba(255,255,255,0.72);
+      line-height:1.55;
+      font-size: 14px;
+    }
+    .list{
+      margin:12px 0 0;
+      padding-left: 18px;
+      color: rgba(255,255,255,0.72);
+      line-height:1.6;
+      font-size: 13px;
+    }
+    .tagRow{
+      display:flex; gap:8px; flex-wrap:wrap;
+      margin-top: 12px;
+    }
+    .tag{
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 7px 9px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.18);
+      color: rgba(255,255,255,0.68);
+    }
+
+    /* Timeline */
+    .timeline{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .step{
+      display:grid;
+      grid-template-columns: 140px 1fr;
+      gap: 14px;
+      padding: 16px;
+      border-radius: var(--radius);
+      border:1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+    }
+    @media (max-width: 720px){
+      .step{ grid-template-columns: 1fr; }
+    }
+    .step .left{
+      font-family: var(--mono);
+      color: rgba(255,255,255,0.64);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      border:1px solid rgba(255,255,255,0.15);
+      background: rgba(0,0,0,0.20);
+      color: rgba(255,255,255,0.80);
+      font-weight:600;
+      font-family: var(--mono);
+    }
+    .step .right h4{
+      margin:0 0 6px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.86);
+    }
+    .step .right p{
+      margin:0;
+      color: rgba(255,255,255,0.70);
+      font-size: 14px;
+      line-height:1.55;
+    }
+
+    /* Repository mock */
+    .repo{
+      display:grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 16px;
+      align-items:stretch;
+    }
+    @media (max-width: 900px){ .repo{ grid-template-columns: 1fr; } }
+    .tree{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,0.74);
+      background: rgba(0,0,0,0.18);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius);
+      padding: 16px;
+      line-height:1.6;
+      overflow:hidden;
+      position:relative;
+    }
+    .tree .line{ opacity:0.9; }
+    .tree .dim{ color: rgba(255,255,255,0.55); }
+    .tree .hl{ color: rgba(124,255,178,0.85); }
+    .tree .bl{ color: rgba(124,224,255,0.85); }
+    .repoCard{
+      border-radius: var(--radius);
+      border:1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      padding: 18px;
+    }
+    .repoCard h3{ margin:0 0 8px; font-size: 14px; color: rgba(255,255,255,0.88); }
+    .repoCard p{ margin:0; color: rgba(255,255,255,0.72); line-height:1.55; font-size: 14px; }
+    .repoCard .ctaRow{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top: 14px;
+    }
+    .btn{
+      appearance:none;
+      border:1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.86);
+      padding: 11px 13px;
+      border-radius: 12px;
+      font-family: var(--mono);
+      font-size: 12px;
+      cursor:pointer;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.09);
+      border-color: rgba(255,255,255,0.20);
+    }
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(183,185,255,0.22), rgba(124,224,255,0.14));
+      border-color: rgba(183,185,255,0.35);
+    }
+
+    /* Footer */
+    footer{
+      padding: 34px 0 48px;
+      color: rgba(255,255,255,0.55);
+      font-size: 12px;
+    }
+    .footerRow{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px; flex-wrap:wrap;
+      border-top:1px solid rgba(255,255,255,0.10);
+      padding-top: 18px;
+    }
+    .footMono{ font-family: var(--mono); letter-spacing: 0.02em; }
+    .smallLinks{
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+    .smallLinks a{
+      color: rgba(255,255,255,0.62);
+      text-decoration:none;
+      border-bottom: 1px dashed rgba(255,255,255,0.18);
+    }
+    .smallLinks a:hover{
+      color: rgba(255,255,255,0.85);
+      border-bottom-color: rgba(255,255,255,0.35);
+    }
+
+    /* Reveal animations */
+    .reveal{
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity .7s ease, transform .7s ease;
+      will-change: transform, opacity;
+    }
+    .reveal.is-visible{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Progress indicator */
+    .progress{
+      position:fixed;
+      top:0;
+      left:0;
+      height: 2px;
+      width: 100%;
+      transform-origin: left;
+      transform: scaleX(0);
+      background: linear-gradient(90deg, rgba(124,224,255,0.95), rgba(183,185,255,0.95), rgba(124,255,178,0.95));
+      z-index: 80;
+      opacity: 0.8;
+    }
+
+    /* Reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      .reveal{ opacity:1; transform:none; transition:none; }
+      .scanline{ display:none; }
+      .logo:after{ animation:none; }
+      .dot{ animation:none; }
+      .cursor{ animation:none; opacity:0.6; }
+      .progress{ display:none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+  <div class="bggrid"></div>
+  <div class="noise"></div>
+
+  <header class="topbar">
+    <div class="wrap">
+      <div class="inner">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <h1>CONSTELLATION LABS</h1>
+            <div class="sub">Shared Infrastructure • Digital Culture • Catalonia</div>
+          </div>
+        </div>
+        <nav class="nav" aria-label="Page navigation">
+          <a class="chip" href="#mission">Mission</a>
+          <a class="chip" href="#activities">Program</a>
+          <a class="chip" href="#repository">Open-Source</a>
+          <a class="chip" href="#impact">Impact</a>
+          <a class="chip primary" href="#connect">Connect</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="heroGrid">
+          <div class="card pad reveal">
+            <div class="kicker"><span class="dot" aria-hidden="true"></span>Active infrastructure / non-commercial / sector articulation</div>
+            <h2 class="title">A shared lab to strengthen Catalonia’s digital culture sector.</h2>
+            <p class="lead">
+              Constellation Labs is a permanent platform for advanced research, learning, and collaboration
+              at the intersection of art, science, and emerging technologies — based at Espronceda and developed by IMMENSIVA × NUBIA.
+            </p>
+
+            <div class="metaRow" role="list">
+              <div class="pill" role="listitem"><b>Focus</b> XR • AI • Robotics • Creative Coding</div>
+              <div class="pill" role="listitem"><b>Format</b> Open Labs • Hack-Labs • Knowledge Exchange</div>
+              <div class="pill" role="listitem"><b>Core output</b> Open-source repository</div>
+            </div>
+          </div>
+
+          <div class="card reveal" aria-label="Program console">
+            <div class="consoleHeader">
+              <div class="windowDots" aria-hidden="true">
+                <div class="wd r"></div><div class="wd y"></div><div class="wd g"></div>
+              </div>
+              <div class="consoleTitle">constellation_labs://boot</div>
+              <div style="width:54px;"></div>
+            </div>
+            <div class="console">
+<pre id="consoleText"></pre><span class="cursor" aria-hidden="true"></span>
+              <div class="scanline" aria-hidden="true"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MISSION -->
+    <section id="mission">
+      <div class="wrap">
+        <div class="sectionTitle">
+          <h2>Mission</h2>
+          <div class="hint">Why it exists / what it solves</div>
+        </div>
+
+        <div class="grid2">
+          <div class="block reveal">
+            <h3>Structural need</h3>
+            <p>
+              The rapid acceleration of AI and immersive technologies is reshaping cultural production,
+              but the sector lacks continuous shared infrastructures for collective experimentation, reflection, and coordination.
+            </p>
+            <div class="tagRow">
+              <span class="tag">sector fragmentation</span>
+              <span class="tag">access barriers</span>
+              <span class="tag">missing connective tissue</span>
+            </div>
+          </div>
+
+          <div class="block reveal">
+            <h3>Operating model</h3>
+            <p>
+              Not a coworking space. Not isolated events. Constellation Labs is a permanent articulation platform
+              that prioritizes collective learning, critical engagement, and durable networks over individual production outcomes.
+            </p>
+            <div class="tagRow">
+              <span class="tag">continuous lab</span>
+              <span class="tag">P2P + B2B</span>
+              <span class="tag">knowledge transfer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OBJECTIVES -->
+    <section id="objectives">
+      <div class="wrap">
+        <div class="sectionTitle">
+          <h2>Objectives</h2>
+          <div class="hint">Permanent infrastructure / collaboration / access / repository</div>
+        </div>
+
+        <div class="grid2">
+          <div class="block reveal">
+            <h3>Sector articulation</h3>
+            <p>Connect artists, technologists, researchers, cultural entities, academic institutions, and industry stakeholders through a stable shared infrastructure.</p>
+            <ul class="list">
+              <li>Continuous convening point</li>
+              <li>Network formation and coordination</li>
+              <li>Regional + international connectivity</li>
+            </ul>
+          </div>
+          <div class="block reveal">
+            <h3>Collective access + professionalization</h3>
+            <p>Expand access to advanced tools (XR, AI, robotics, creative coding) through facilitated learning models and collaborative research environments.</p>
+            <ul class="list">
+              <li>Reduced participation barriers</li>
+              <li>Structured methodologies for learning</li>
+              <li>Mentorship and pilot development</li>
+            </ul>
+          </div>
+          <div class="block reveal">
+            <h3>Knowledge transfer</h3>
+            <p>Consolidate methodologies and publish sector-relevant documentation that supports sustainability and shared capacity.</p>
+            <ul class="list">
+              <li>Open documentation and publications</li>
+              <li>Reusable frameworks and workflows</li>
+              <li>Ethically informed cultural tech</li>
+            </ul>
+          </div>
+          <div class="block reveal">
+            <h3>Open-source ecosystem strengthening</h3>
+            <p>Create and maintain an open-source repository of projects, information, and code to strengthen the Catalan digital culture ecosystem.</p>
+            <ul class="list">
+              <li>Project templates and reference implementations</li>
+              <li>Technical workflows and starter kits</li>
+              <li>Long-term accessibility beyond the program</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACTIVITIES -->
+    <section id="activities">
+      <div class="wrap">
+        <div class="sectionTitle">
+          <h2>Program</h2>
+          <div class="hint">A functional system, not a one-off event</div>
+        </div>
+
+        <div class="timeline">
+          <div class="step reveal">
+            <div class="left"><span class="badge">01</span>Open Constellation Labs</div>
+            <div class="right">
+              <h4>Facilitated open-access lab sessions</h4>
+              <p>Guided access to shared tools and collaborative workflows for experimentation and peer learning at Espronceda (Barcelona). Continuous operation.</p>
+            </div>
+          </div>
+
+          <div class="step reveal">
+            <div class="left"><span class="badge">02</span>Hack-Lab Sessions</div>
+            <div class="right">
+              <h4>Time-bound collaborative research labs</h4>
+              <p>Multidisciplinary labs focused on developing tools, workflows, and conceptual approaches at the intersection of art, science, and technology.</p>
+            </div>
+          </div>
+
+          <div class="step reveal">
+            <div class="left"><span class="badge">03</span>Knowledge Exchange</div>
+            <div class="right">
+              <h4>Talks, working groups, semi-public sessions</h4>
+              <p>Critical and creative engagement with emerging technologies in cultural contexts, designed for knowledge transfer and sector coherence.</p>
+            </div>
+          </div>
+
+          <div class="step reveal">
+            <div class="left"><span class="badge">04</span>Sector Connectivity</div>
+            <div class="right">
+              <h4>P2P + B2B collaboration development</h4>
+              <p>Matchmaking sessions, informal networking, and exploratory partnerships connecting cultural entities, academic partners, and industry stakeholders. Hybrid format.</p>
+            </div>
+          </div>
+
+          <div class="step reveal">
+            <div class="left"><span class="badge">05</span>Documentation Outputs</div>
+            <div class="right">
+              <h4>Open documentation + sector publications</h4>
+              <p>Production of shared documentation, methodological insights, and sector-relevant outputs disseminated through digital channels.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REPOSITORY -->
+    <section id="repository">
+      <div class="wrap">
+        <div class="sectionTitle">
+          <h2>Open-source Repository</h2>
+          <div class="hint">Reusable knowledge, permanently accessible</div>
+        </div>
+
+        <div class="repo">
+          <div class="tree reveal" aria-label="Repository structure mock">
+            <div class="line"><span class="hl">constellation-labs/</span></div>
+            <div class="line dim">├─ docs/</div>
+            <div class="line dim">│  ├─ methodologies/</div>
+            <div class="line dim">│  ├─ lab-playbooks/</div>
+            <div class="line dim">│  └─ ethical-guidelines/</div>
+            <div class="line dim">├─ projects/</div>
+            <div class="line dim">│  ├─ xr-starter/</div>
+            <div class="line dim">│  ├─ ai-creative-coding/</div>
+            <div class="line dim">│  ├─ robotics-prototypes/</div>
+            <div class="line dim">│  └─ hybrid-installation-blueprints/</div>
+            <div class="line dim">├─ workflows/</div>
+            <div class="line dim">│  ├─ toolchains/</div>
+            <div class="line dim">│  ├─ pipelines/</div>
+            <div class="line dim">│  └─ reproducible-demos/</div>
+            <div class="line dim">├─ learning/</div>
+            <div class="line dim">│  ├─ workshops/</div>
+            <div class="line dim">│  └─ reading-lists/</div>
+            <div class="line dim">└─ community/</div>
+            <div class="line dim">   ├─ partners/</div>
+            <div class="line dim">   └─ contribute.md</div>
+            <div class="line" style="margin-top:10px;"><span class="bl">status:</span> public knowledge base • <span class="hl">Catalonia-first</span> • reusable across the sector</div>
+          </div>
+
+          <div class="repoCard reveal">
+            <h3>Why open-source matters here</h3>
+            <p>
+              The repository ensures that tools, workflows, and research insights developed through the program remain
+              transferable and accessible — strengthening Catalonia’s digital culture ecosystem long after each lab session ends.
+            </p>
+            <div class="ctaRow">
+              <a class="btn primary" href="#connect">Request access / Partner</a>
+              <a class="btn" href="#impact">View impact logic</a>
+            </div>
+            <div class="tagRow">
+              <span class="tag">documentation</span>
+              <span class="tag">code</span>
+              <span class="tag">templates</span>
+              <span class="tag">methodologies</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IMPACT -->
+    <section id="impact">
+      <div class="wrap">
+        <div class="sectionTitle">
+          <h2>Impact</h2>
+          <div class="hint">Professionalization / cohesion / cross-sector spillover</div>
+        </div>
+
+        <div class="grid2">
+          <div class="block reveal">
+            <h3>Professionalization + sustainability</h3>
+            <p>
+              Shared access to advanced technologies and structured research environments improves professional capacity,
+              reduces access barriers, and supports sustainable collaboration models.
+            </p>
+          </div>
+
+          <div class="block reveal">
+            <h3>Sector cohesion + networks</h3>
+            <p>
+              A stable convergence point connecting dispersed actors and linking Catalonia to national and international
+              cultural, academic, and technological networks.
+            </p>
+          </div>
+
+          <div class="block reveal">
+            <h3>Cross-sector spillover</h3>
+            <p>
+              Generates impact across higher education, scientific research, creative industries, innovation ecosystems,
+              and social impact initiatives — rooted in culturally grounded technology development.
+            </p>
+          </div>
+
+          <div class="block reveal">
+            <h3>Visibility + dissemination</h3>
+            <p>
+              Communication emphasizes sector-level impact and shared knowledge through open documentation,
+              publications, and coordinated dissemination via Espronceda / IMMENSIVA / NUBIA channels.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONNECT -->
+    <section id="connect">
+      <div class="wrap">
+        <div class="sectionTitle">
+          <h2>Connect</h2>
+          <div class="hint">A working infrastructure you can plug into</div>
+        </div>
+
+        <div class="grid2">
+          <div class="block reveal">
+            <h3>Based at Espronceda (Barcelona)</h3>
+            <p>
+              Constellation Labs is developed by IMMENSIVA × NUBIA as a stable, non-commercial infrastructure
+              for Catalonia’s digital culture sector.
+            </p>
+            <div class="tagRow">
+              <span class="tag">open labs</span>
+              <span class="tag">hybrid sessions</span>
+              <span class="tag">sector articulation</span>
+            </div>
+          </div>
+
+          <div class="block reveal">
+            <h3>Quick contact block (replace)</h3>
+            <p style="margin-bottom:12px;">
+              Swap these placeholders with your public-facing details.
+            </p>
+            <ul class="list">
+              <li><span class="dim">Email:</span> contact@yourdomain.org</li>
+              <li><span class="dim">Location:</span> Espronceda – Institute of Art & Culture, Barcelona</li>
+              <li><span class="dim">Channels:</span> Espronceda / IMMENSIVA / NUBIA</li>
+            </ul>
+            <div class="ctaRow" style="margin-top:14px;">
+              <button class="btn primary" id="copySummary">Copy project summary</button>
+              <a class="btn" href="#mission">Back to top</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap">
+        <div class="footerRow">
+          <div class="footMono">CLT514 • Constellation Labs • Shared Infrastructure for Digital Culture</div>
+          <div class="smallLinks">
+            <a href="#objectives">Objectives</a>
+            <a href="#activities">Program</a>
+            <a href="#repository">Open-source</a>
+            <a href="#impact">Impact</a>
+          </div>
+        </div>
+        <div style="margin-top:10px;" class="footMono">
+          Content derived from the CLT514 final proposal (project objectives, description, activities, and dissemination plan).
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Smooth scroll (native for modern browsers, fallback not required)
+    document.documentElement.style.scrollBehavior = "smooth";
+
+    // Scroll progress indicator
+    const progress = document.getElementById("progress");
+    const updateProgress = () => {
+      const doc = document.documentElement;
+      const max = (doc.scrollHeight - doc.clientHeight) || 1;
+      const p = doc.scrollTop / max;
+      progress.style.transform = `scaleX(${Math.max(0, Math.min(1, p))})`;
+    };
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    updateProgress();
+
+    // Reveal on scroll
+    const revealEls = Array.from(document.querySelectorAll(".reveal"));
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) e.target.classList.add("is-visible");
+      }
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+
+    // Console boot text (feels like a functional program)
+    const lines = [
+      "boot: constellation_labs v1.0",
+      "env: espronceda / barcelona",
+      "mode: non-commercial shared infrastructure",
+      "targets: XR | AI | robotics | creative coding",
+      "",
+      "init: sector_articulation_space .......... [ok]",
+      "init: facilitated_open_labs .............. [ok]",
+      "init: collaborative_hack_labs ............. [ok]",
+      "init: research_knowledge_exchange ......... [ok]",
+      "init: p2p_b2b_connectivity ................ [ok]",
+      "init: open_documentation_pipeline ......... [ok]",
+      "init: open_source_repository .............. [ok]",
+      "",
+      "status: online",
+      "hint: scroll to inspect modules",
+    ];
+
+    const consoleEl = document.getElementById("consoleText");
+    let idx = 0;
+
+    function typeNext() {
+      if (!consoleEl) return;
+      if (idx >= lines.length) return;
+      const line = lines[idx];
+      // type line char-by-char
+      let c = 0;
+      const speed = 14 + Math.random()*10;
+
+      const interval = setInterval(() => {
+        consoleEl.textContent += line.charAt(c);
+        c++;
+        if (c >= line.length) {
+          clearInterval(interval);
+          consoleEl.textContent += "\n";
+          idx++;
+          setTimeout(typeNext, 140 + Math.random()*160);
+        }
+      }, speed);
+    }
+    typeNext();
+
+    // Copy summary button
+    const summary = `Constellation Labs is a community-driven, non-commercial infrastructure for advanced research, learning, and collaboration in digital culture, based at Espronceda – Institute of Art & Culture and developed by IMMENSIVA × NUBIA. It provides continuous shared spaces to explore XR, AI, robotics, and creative coding through facilitated open labs, collaborative hack-labs, knowledge exchange, and sector connectivity. A central pillar is an open-source repository of projects, documentation, methodologies, and code to strengthen the Catalan digital culture ecosystem through transparent knowledge sharing and long-term accessibility.`;
+
+    document.getElementById("copySummary")?.addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(summary);
+        const btn = document.getElementById("copySummary");
+        const old = btn.textContent;
+        btn.textContent = "Copied ✓";
+        setTimeout(()=> btn.textContent = old, 1200);
+      }catch(err){
+        alert("Copy failed. You can manually select and copy from the page source.");
+      }
+    });
+  </script>
+</body>
+</html>
