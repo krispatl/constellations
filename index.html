@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="color-scheme" content="dark" />
-  <title>Labs de Constel·lació</title>
+  <title>Laboratori Constel·lació</title>
 
   <style>
     :root{
@@ -48,7 +48,7 @@
         radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
       background-size: 34px 34px, 104px 104px;
       background-position: 0 0, 36px 44px;
-      opacity:.20;
+      opacity:.18;
       mix-blend-mode:screen;
       filter: blur(.2px);
     }
@@ -103,7 +103,7 @@
     }
     .brand h1{
       margin:0; font-size:13px; letter-spacing:.12em; text-transform:uppercase;
-      color:rgba(255,255,255,.86); line-height:1.2;
+      color:rgba(255,255,255,.90); line-height:1.2;
     }
     .brand .sub{
       font-family:var(--mono); font-size:12px; color:var(--muted2);
@@ -157,7 +157,7 @@
     }
 
     /* hero */
-    .hero{padding:58px 0 24px;}
+    .hero{padding:58px 0 18px;}
     .heroGrid{
       display:grid;
       grid-template-columns: 1.25fr .75fr;
@@ -207,10 +207,11 @@
     .lead{
       margin:0;
       font-size:16px;
-      line-height:1.6;
+      line-height:1.7;
       color: rgba(255,255,255,.78);
-      max-width: 72ch;
+      max-width: 76ch;
     }
+
     .metaRow{display:flex; gap:10px; flex-wrap:wrap; margin-top:18px;}
     .pill{
       font-family:var(--mono);
@@ -247,7 +248,33 @@
       border-color: rgba(183,185,255,0.35);
     }
 
-    /* “functional program” panel */
+    /* “community signal” strip */
+    .fast{padding:0 0 34px;}
+    .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+    @media (max-width: 960px){ .grid3{grid-template-columns:1fr;} }
+    .mini{
+      border-radius:var(--radius);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      padding:16px 16px 14px;
+      position:relative;
+      overflow:hidden;
+    }
+    .mini:before{
+      content:"";
+      position:absolute; inset:-1px;
+      background:
+        radial-gradient(520px 280px at 10% 15%, rgba(183,185,255,0.10), transparent 60%),
+        radial-gradient(520px 280px at 90% 90%, rgba(124,224,255,0.08), transparent 60%);
+      opacity:.85;
+      pointer-events:none;
+    }
+    .mini > *{position:relative; z-index:1;}
+    .mini h3{margin:0 0 8px; font-size:14px; color:rgba(255,255,255,.92); letter-spacing:-.01em;}
+    .mini p{margin:0; font-size:14px; color:rgba(255,255,255,.72); line-height:1.65;}
+    .mini ul{margin:10px 0 0; padding-left:18px; color:rgba(255,255,255,.70); font-size:13px; line-height:1.6;}
+
+    /* “program panel” — lighter, more invitation than app */
     .consoleHeader{
       display:flex; align-items:center; justify-content:space-between;
       padding:14px 16px;
@@ -266,7 +293,7 @@
       font-size:12px;
       color:rgba(255,255,255,.78);
       line-height:1.55;
-      height: 360px;
+      height: 340px;
       overflow:hidden;
       position:relative;
     }
@@ -282,11 +309,11 @@
     .scanline{
       position:absolute; left:0; right:0; top:-30%;
       height:30%;
-      background: linear-gradient(to bottom, transparent, rgba(124,224,255,0.08), transparent);
-      animation: scan 4.6s linear infinite;
+      background: linear-gradient(to bottom, transparent, rgba(124,224,255,0.07), transparent);
+      animation: scan 4.8s linear infinite;
       pointer-events:none;
     }
-    @keyframes scan{ from{transform:translateY(0)} to{transform:translateY(560px)} }
+    @keyframes scan{ from{transform:translateY(0)} to{transform:translateY(520px)} }
 
     /* sections */
     section{padding:34px 0;}
@@ -296,10 +323,11 @@
     }
     .sectionTitle h2{
       margin:0;
-      font-size:16px;
-      letter-spacing:.12em;
+      font-size:18px;
+      font-weight:600;
+      letter-spacing:.08em;
       text-transform:uppercase;
-      color:rgba(255,255,255,.82);
+      color:rgba(255,255,255,.84);
     }
     .sectionTitle .hint{
       font-family:var(--mono);
@@ -328,8 +356,8 @@
       pointer-events:none;
     }
     .block > *{position:relative; z-index:1;}
-    .block h3{margin:0 0 8px; font-size:14px; color:rgba(255,255,255,.90); letter-spacing:-.01em;}
-    .block p{margin:0; font-size:14px; color:rgba(255,255,255,.73); line-height:1.55;}
+    .block h3{margin:0 0 8px; font-size:14px; color:rgba(255,255,255,.92); letter-spacing:-.01em;}
+    .block p{margin:0; font-size:14px; color:rgba(255,255,255,.73); line-height:1.7;}
     .list{margin:12px 0 0; padding-left:18px; color:rgba(255,255,255,.72); font-size:13px; line-height:1.6;}
     .tagRow{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;}
     .tag{
@@ -342,39 +370,31 @@
       color: rgba(255,255,255,.68);
     }
 
-    /* timeline */
-    .timeline{display:grid; gap:12px;}
-    .step{
-      display:grid;
-      grid-template-columns: 160px 1fr;
-      gap:14px;
-      padding:16px;
-      border-radius:var(--radius);
+    /* “join” */
+    .joinGrid{display:grid; grid-template-columns: 1.1fr .9fr; gap:16px;}
+    @media (max-width: 920px){ .joinGrid{grid-template-columns:1fr;} }
+    .formRow{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;}
+    @media (max-width: 720px){ .formRow{grid-template-columns:1fr;} }
+    .input{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
       border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.03);
+      background: rgba(0,0,0,.20);
+      color: rgba(255,255,255,.86);
+      font-family: var(--mono);
+      font-size:12px;
+      outline:none;
     }
-    @media (max-width: 720px){ .step{grid-template-columns:1fr;} }
-    .step .left{
+    .input:focus{border-color: rgba(183,185,255,.35); box-shadow: 0 0 0 3px rgba(183,185,255,.10);}
+    .textarea{min-height:110px; resize:vertical; line-height:1.45;}
+    .note{
+      margin-top:10px;
       font-family:var(--mono);
       font-size:12px;
-      color:rgba(255,255,255,.64);
-      letter-spacing:.04em;
-      text-transform:uppercase;
-      display:flex; gap:10px; align-items:flex-start;
-      line-height:1.4;
+      color:rgba(255,255,255,.56);
+      line-height:1.5;
     }
-    .badge{
-      display:inline-flex; align-items:center; justify-content:center;
-      min-width:28px; height:28px;
-      border-radius:10px;
-      border:1px solid rgba(255,255,255,.15);
-      background: rgba(0,0,0,.20);
-      color: rgba(255,255,255,.82);
-      font-weight:600;
-      font-family:var(--mono);
-    }
-    .step .right h4{margin:0 0 6px; font-size:14px; color:rgba(255,255,255,.88);}
-    .step .right p{margin:0; font-size:14px; color:rgba(255,255,255,.72); line-height:1.55;}
 
     /* footer */
     footer{padding:34px 0 48px; color:rgba(255,255,255,.55); font-size:12px;}
@@ -416,8 +436,8 @@
         <div class="brand">
           <div class="logo" aria-hidden="true"></div>
           <div>
-            <h1 id="brandTitle">CONSTELLATION LABS</h1>
-            <div class="sub" id="brandSub">Hack Lab • Shared Infrastructure • Barcelona</div>
+            <h1 id="brandTitle">LABORATORI CONSTEL·LACIÓ</h1>
+            <div class="sub" id="brandSub">Hack Lab • Infraestructura compartida • Barcelona</div>
           </div>
         </div>
 
@@ -425,8 +445,8 @@
           <a class="chip" href="#about" data-i18n="nav_about">Què és</a>
           <a class="chip" href="#how" data-i18n="nav_how">Com funciona</a>
           <a class="chip" href="#focus" data-i18n="nav_focus">Àrees</a>
-          <a class="chip" href="#outputs" data-i18n="nav_outputs">Outputs</a>
-          <a class="chip primary" href="#connect" data-i18n="nav_connect">Contacte</a>
+          <a class="chip" href="#outputs" data-i18n="nav_outputs">Recursos</a>
+          <a class="chip primary" href="#join" data-i18n="nav_join">Participa</a>
 
           <div class="langToggle" role="group" aria-label="Language switch">
             <button class="langBtn active" id="btnCA" type="button">CA</button>
@@ -445,36 +465,36 @@
           <div class="card pad reveal">
             <div class="kicker">
               <span class="dot" aria-hidden="true"></span>
-              <span data-i18n="hero_kicker">hack lab permanent / recerca aplicada / col·laboració real</span>
+              <span data-i18n="hero_kicker">comunitat / prototipatge / transferència</span>
             </div>
 
             <h2 class="title" data-i18n="hero_title">
-              Un hack lab per construir el futur cultural — amb IA, XR i creativitat radical.
+              Un laboratori obert per crear cultura digital amb IA, XR i tecnologies emergents.
             </h2>
 
             <p class="lead" data-i18n="hero_lead">
-              Constellation Labs és una plataforma oberta a professionals i institucions que volen experimentar, prototipar i compartir coneixement
-              a la intersecció entre art, ciència i tecnologia. Base a Barcelona.
+              Laboratori Constel·lació connecta artistes, institucions, universitats i indústria creativa per experimentar,
+              construir pilots i compartir coneixement. Volem que cada cicle deixi recursos útils, documentats i reutilitzables.
             </p>
 
             <div class="metaRow" role="list">
-              <div class="pill" role="listitem"><b data-i18n="pill_mode_b">Mode</b><span data-i18n="pill_mode_v">Labs facilitats + sprints col·laboratius</span></div>
-              <div class="pill" role="listitem"><b data-i18n="pill_focus_b">Focus</b><span>XR • AI • Robotics • Creative Coding</span></div>
-              <div class="pill" role="listitem"><b data-i18n="pill_output_b">Output</b><span data-i18n="pill_output_v">Open-source + metodologies + casos d’ús</span></div>
+              <div class="pill" role="listitem"><b data-i18n="pill_for_b">Per a</b><span data-i18n="pill_for_v">artistes • centres • universitats • indústria creativa</span></div>
+              <div class="pill" role="listitem"><b data-i18n="pill_do_b">Fem</b><span data-i18n="pill_do_v">labs • sprints • trobades • pilots</span></div>
+              <div class="pill" role="listitem"><b data-i18n="pill_leave_b">Deixem</b><span data-i18n="pill_leave_v">guies • codi • metodologies • casos</span></div>
             </div>
 
             <div class="ctaRow">
-              <a class="btn primary" href="#connect" data-i18n="cta_partner">Proposar col·laboració</a>
-              <a class="btn" href="#how" data-i18n="cta_scroll">Veure com funciona</a>
+              <a class="btn primary" href="#join" data-i18n="cta_join">Vull participar</a>
+              <a class="btn" href="#outputs" data-i18n="cta_repo">Veure recursos</a>
             </div>
           </div>
 
-          <div class="card reveal" aria-label="System console">
+          <div class="card reveal" aria-label="Community console">
             <div class="consoleHeader">
               <div class="windowDots" aria-hidden="true">
                 <div class="wd r"></div><div class="wd y"></div><div class="wd g"></div>
               </div>
-              <div class="consoleTitle">constellation://status</div>
+              <div class="consoleTitle" id="consoleTitle">constel·lació://signals</div>
               <div style="width:54px;"></div>
             </div>
             <div class="console">
@@ -487,38 +507,70 @@
       </div>
     </section>
 
+    <!-- FAST STRIP -->
+    <section class="fast">
+      <div class="wrap">
+        <div class="grid3">
+          <div class="mini reveal">
+            <h3 data-i18n="fast_1_h">Porta una idea</h3>
+            <p data-i18n="fast_1_p">Propostes, reptes, necessitats. Si és interessant, hi construïm un format.</p>
+            <ul>
+              <li data-i18n="fast_1_b1">Convocatòria contínua</li>
+              <li data-i18n="fast_1_b2">Onboarding i equip</li>
+            </ul>
+          </div>
+          <div class="mini reveal">
+            <h3 data-i18n="fast_2_h">Construeix amb nosaltres</h3>
+            <p data-i18n="fast_2_p">Labs facilitats i sprints per passar d’idea a prototip provable.</p>
+            <ul>
+              <li data-i18n="fast_2_b1">Tècnic + conceptual</li>
+              <li data-i18n="fast_2_b2">Iteració ràpida</li>
+            </ul>
+          </div>
+          <div class="mini reveal">
+            <h3 data-i18n="fast_3_h">Comparteix el que aprens</h3>
+            <p data-i18n="fast_3_p">Documentació i recursos perquè l’ecosistema català avanci més ràpid.</p>
+            <ul>
+              <li data-i18n="fast_3_b1">Guies i plantilles</li>
+              <li data-i18n="fast_3_b2">Repositori obert</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ABOUT -->
     <section id="about">
       <div class="wrap">
         <div class="sectionTitle">
           <h2 data-i18n="about_h">Què és</h2>
-          <div class="hint" data-i18n="about_hint">Una infraestructura compartida per experimentar millor, més ràpid i amb criteri</div>
+          <div class="hint" data-i18n="about_hint">Un lloc per provar, construir i connectar — amb vocació pública</div>
         </div>
 
         <div class="grid2">
           <div class="block reveal">
-            <h3 data-i18n="about_a_h">Un espai de recerca i prototipatge</h3>
+            <h3 data-i18n="about_a_h">Infraestructura compartida</h3>
             <p data-i18n="about_a_p">
-              Un lloc on equips mixtos (artistes, tecnòlegs, investigadors i institucions) poden provar idees amb suport de metodologies,
-              facilitació i una cultura de documentació. Menys “demo chaos”, més aprenentatge acumulatiu.
+              Un espai estable on la cultura digital pot fer recerca aplicada i prototipatge amb continuïtat.
+              Menys projectes aïllats, més aprenentatge acumulatiu.
             </p>
-            <div class="tagRow">
-              <span class="tag" data-i18n="tag_applied">recerca aplicada</span>
-              <span class="tag" data-i18n="tag_tools">eines avançades</span>
-              <span class="tag" data-i18n="tag_methods">metodologies</span>
-            </div>
+            <ul class="list">
+              <li data-i18n="about_a_1">Facilitació i metodologies</li>
+              <li data-i18n="about_a_2">Eines i suport tècnic</li>
+              <li data-i18n="about_a_3">Documentació per reutilitzar</li>
+            </ul>
           </div>
 
           <div class="block reveal">
-            <h3 data-i18n="about_b_h">Una comunitat que connecta sectors</h3>
+            <h3 data-i18n="about_b_h">Comunitat i xarxa</h3>
             <p data-i18n="about_b_p">
-              Constellation Labs actua com a pont entre cultura, acadèmia i indústria creativa. Connectem persones, projectes i oportunitats
-              amb formats clars: labs oberts, hack-labs, sessions de transferència i matchmaking.
+              Connectem artistes, institucions, universitats i indústria creativa per activar col·laboracions i pilots.
+              L’objectiu: enfortir l’ecosistema català amb resultats visibles.
             </p>
             <div class="tagRow">
               <span class="tag" data-i18n="tag_network">xarxa</span>
               <span class="tag" data-i18n="tag_collab">col·laboració</span>
-              <span class="tag" data-i18n="tag_sustain">sostenibilitat</span>
+              <span class="tag" data-i18n="tag_transfer">transferència</span>
             </div>
           </div>
         </div>
@@ -530,40 +582,28 @@
       <div class="wrap">
         <div class="sectionTitle">
           <h2 data-i18n="how_h">Com funciona</h2>
-          <div class="hint" data-i18n="how_hint">Un sistema operatiu per a labs: de la idea al repositori</div>
+          <div class="hint" data-i18n="how_hint">De la proposta al pilot — i del pilot al repositori</div>
         </div>
 
-        <div class="timeline">
-          <div class="step reveal">
-            <div class="left"><span class="badge">01</span><span data-i18n="how_1_l">Entrada</span></div>
-            <div class="right">
-              <h4 data-i18n="how_1_h">Convocatòria contínua i onboarding</h4>
-              <p data-i18n="how_1_p">Portes d’entrada clares: propostes, necessitats, reptes. T’ajudem a trobar el format i l’equip adequat.</p>
-            </div>
+        <div class="grid2">
+          <div class="block reveal">
+            <h3 data-i18n="how_a_h">Formats</h3>
+            <p data-i18n="how_a_p">Treball amb formats clars per aconseguir resultats reals i compartibles.</p>
+            <ul class="list">
+              <li data-i18n="how_a_1"><b>Open Labs</b> — sessions obertes per explorar i connectar</li>
+              <li data-i18n="how_a_2"><b>Hack Sprints</b> — prototipatge intensiu amb facilitació</li>
+              <li data-i18n="how_a_3"><b>Transferència</b> — sessions de síntesi i publicació de recursos</li>
+            </ul>
           </div>
 
-          <div class="step reveal">
-            <div class="left"><span class="badge">02</span><span data-i18n="how_2_l">Lab</span></div>
-            <div class="right">
-              <h4 data-i18n="how_2_h">Labs facilitats i sprints col·laboratius</h4>
-              <p data-i18n="how_2_p">Treball intensiu amb facilitació (tècnica + conceptual) i una estructura que converteix temps de lab en resultats reutilitzables.</p>
-            </div>
-          </div>
-
-          <div class="step reveal">
-            <div class="left"><span class="badge">03</span><span data-i18n="how_3_l">Transferència</span></div>
-            <div class="right">
-              <h4 data-i18n="how_3_h">Debrief, guies i casos d’ús</h4>
-              <p data-i18n="how_3_p">Cada cicle tanca amb síntesi: què ha funcionat, què no, i com ho pot reutilitzar el sector.</p>
-            </div>
-          </div>
-
-          <div class="step reveal">
-            <div class="left"><span class="badge">04</span><span data-i18n="how_4_l">Publicació</span></div>
-            <div class="right">
-              <h4 data-i18n="how_4_h">Open-source (quan convingui) + documentació</h4>
-              <p data-i18n="how_4_p">Compartim projectes, codi i metodologies en un repositori obert per reforçar l’ecosistema i accelerar la innovació cultural.</p>
-            </div>
+          <div class="block reveal">
+            <h3 data-i18n="how_b_h">Resultats</h3>
+            <p data-i18n="how_b_p">Cada cicle deixa peces reutilitzables: no només demos.</p>
+            <ul class="list">
+              <li data-i18n="how_b_1">Pilots i proves de concepte</li>
+              <li data-i18n="how_b_2">Guies, playbooks i plantilles</li>
+              <li data-i18n="how_b_3">Codi i repositoris open-source (quan convingui)</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -574,47 +614,47 @@
       <div class="wrap">
         <div class="sectionTitle">
           <h2 data-i18n="focus_h">Àrees</h2>
-          <div class="hint" data-i18n="focus_hint">Tecnologies emergents amb criteri cultural i impacte real</div>
+          <div class="hint" data-i18n="focus_hint">Tecnologies emergents, però amb criteri cultural</div>
         </div>
 
         <div class="grid2">
           <div class="block reveal">
             <h3 data-i18n="focus_a_h">XR / Realitat immersiva</h3>
-            <p data-i18n="focus_a_p">Prototips, instal·lacions i experiències: de l’espai expositiu a l’ús públic, amb accessibilitat i disseny d’experiència.</p>
+            <p data-i18n="focus_a_p">Experiències, instal·lacions i prototips: del concepte a l’espai públic o expositiu.</p>
             <ul class="list">
-              <li data-i18n="focus_a_1">AR / VR / MR • experiències en temps real</li>
+              <li data-i18n="focus_a_1">AR / VR / MR • temps real</li>
               <li data-i18n="focus_a_2">Interacció • narrativa • performance</li>
-              <li data-i18n="focus_a_3">Protocols d’accessibilitat i UX</li>
+              <li data-i18n="focus_a_3">UX i accessibilitat</li>
             </ul>
           </div>
 
           <div class="block reveal">
             <h3 data-i18n="focus_b_h">IA creativa i sistemes generatius</h3>
-            <p data-i18n="focus_b_p">Models, agents i pipelines per a creació, anàlisi i mediació cultural — amb ètica, transparència i bones pràctiques.</p>
+            <p data-i18n="focus_b_p">Pipelines, agents i eines per crear, analitzar i mediar continguts amb transparència.</p>
             <ul class="list">
-              <li data-i18n="focus_b_1">RAG / agents • pipelines multimodals</li>
+              <li data-i18n="focus_b_1">Agents / RAG • multimodal</li>
               <li data-i18n="focus_b_2">IA per a art, recerca i educació</li>
-              <li data-i18n="focus_b_3">Documentació i reproductibilitat</li>
+              <li data-i18n="focus_b_3">Reproductibilitat i bones pràctiques</li>
             </ul>
           </div>
 
           <div class="block reveal">
             <h3 data-i18n="focus_c_h">Robòtica, sensors i espais interactius</h3>
-            <p data-i18n="focus_c_p">Coreografies de dades i presència: sensors, actuadors, màquines i instal·lacions que responen al públic i al context.</p>
+            <p data-i18n="focus_c_p">Instal·lacions que responen a la presència: dades, cos i entorn.</p>
             <ul class="list">
               <li data-i18n="focus_c_1">Sensors • tracking • comportaments</li>
               <li data-i18n="focus_c_2">Instal·lacions híbrides</li>
-              <li data-i18n="focus_c_3">Seguretat, durabilitat i manteniment</li>
+              <li data-i18n="focus_c_3">Durabilitat i manteniment</li>
             </ul>
           </div>
 
           <div class="block reveal">
             <h3 data-i18n="focus_d_h">Creative coding i craft digital</h3>
-            <p data-i18n="focus_d_p">Eines, visuals i sistemes: TouchDesigner, web, motores temps real, audio espacial — del prototip a la producció.</p>
+            <p data-i18n="focus_d_p">Temps real, visuals, audio espacial i engines: del prototip a producció.</p>
             <ul class="list">
-              <li data-i18n="focus_d_1">Temps real • visuals • audio</li>
-              <li data-i18n="focus_d_2">Toolkits i plantilles reutilitzables</li>
-              <li data-i18n="focus_d_3">Formació avançada i peer-learning</li>
+              <li data-i18n="focus_d_1">Web • TouchDesigner • engines</li>
+              <li data-i18n="focus_d_2">Toolkits reutilitzables</li>
+              <li data-i18n="focus_d_3">Peer-learning i mentoratge</li>
             </ul>
           </div>
         </div>
@@ -625,80 +665,101 @@
     <section id="outputs">
       <div class="wrap">
         <div class="sectionTitle">
-          <h2 data-i18n="out_h">Outputs</h2>
-          <div class="hint" data-i18n="out_hint">Coses que la gent pot usar: repositori, guies, casos i prototips</div>
+          <h2 data-i18n="out_h">Recursos</h2>
+          <div class="hint" data-i18n="out_hint">Allò que queda: repositori, guies i projectes</div>
         </div>
 
         <div class="grid2">
           <div class="block reveal">
-            <h3 data-i18n="out_a_h">Repositori open-source</h3>
+            <h3 data-i18n="out_a_h">Repositori obert del sector</h3>
             <p data-i18n="out_a_p">
-              Un arxiu viu de projectes, codi, playbooks i metodologies. No només “post”: recursos que acceleren el treball del sector català.
+              Un repositori públic amb projectes, codi, metodologies i documentació desenvolupada dins del laboratori.
+              Un recurs per reforçar l’ecosistema català i facilitar la transferència real de coneixement.
             </p>
+            <div class="ctaRow" style="margin-top:12px;">
+              <a class="btn" href="#" id="repoBtn" data-i18n="out_repo_btn">Veure repositori (placeholder)</a>
+              <button class="btn" id="copyRepo" type="button" data-i18n="out_repo_copy">Copiar enllaç</button>
+            </div>
             <div class="tagRow">
-              <span class="tag" data-i18n="tag_repo">repositori</span>
               <span class="tag" data-i18n="tag_templates">plantilles</span>
               <span class="tag" data-i18n="tag_playbooks">playbooks</span>
+              <span class="tag" data-i18n="tag_code">codi</span>
             </div>
           </div>
 
           <div class="block reveal">
-            <h3 data-i18n="out_b_h">Casos d’ús i pilots</h3>
+            <h3 data-i18n="out_b_h">Pilots i casos d’ús</h3>
             <p data-i18n="out_b_p">
-              Prototips i proves de concepte amb valor sectorial: formats replicables, documentats i preparats per créixer en col·laboracions.
+              Prototips i proves de concepte amb valor comunitari: replicables, documentats i preparats per créixer en col·laboracions.
             </p>
-            <div class="tagRow">
-              <span class="tag" data-i18n="tag_prototypes">prototips</span>
-              <span class="tag" data-i18n="tag_partners">partners</span>
-              <span class="tag" data-i18n="tag_transfer">transferència</span>
-            </div>
+            <ul class="list">
+              <li data-i18n="out_b_1">Formats replicables</li>
+              <li data-i18n="out_b_2">Documentació clara</li>
+              <li data-i18n="out_b_3">Demostracions públiques</li>
+            </ul>
           </div>
         </div>
 
-        <div class="block reveal" style="margin-top:16px;">
-          <h3 data-i18n="out_c_h">Com ens mesures (simple i creïble)</h3>
+        <div class="block reveal" style="margin-top:16px; text-align:center;">
+          <h3 data-i18n="out_c_h">Impacte acumulatiu</h3>
           <p data-i18n="out_c_p">
-            Ens importa l’impacte real: col·laboracions activades, coneixement reutilitzable i capacitat sectorial. Menys “vanity metrics”, més valor acumulatiu.
+            No només projectes puntuals. Construïm infraestructura, xarxa i coneixement que es manté en el temps.
           </p>
-          <ul class="list">
-            <li data-i18n="out_c_1">Connexions que es converteixen en pilots o projectes</li>
-            <li data-i18n="out_c_2">Recursos publicats i reutilitzats (codi, guies, plantilles)</li>
-            <li data-i18n="out_c_3">Formació avançada i mentoratge (qualitat + continuïtat)</li>
-          </ul>
         </div>
       </div>
     </section>
 
-    <!-- CONNECT -->
-    <section id="connect">
+    <!-- JOIN -->
+    <section id="join">
       <div class="wrap">
         <div class="sectionTitle">
-          <h2 data-i18n="c_h">Contacte</h2>
-          <div class="hint" data-i18n="c_hint">Canvia aquests placeholders per dades públiques</div>
+          <h2 data-i18n="join_h">Participa</h2>
+          <div class="hint" data-i18n="join_hint">Entra com a participant, partner o col·laborador</div>
         </div>
 
-        <div class="grid2">
+        <div class="joinGrid">
           <div class="block reveal">
-            <h3 data-i18n="c_a_h">Proposa una idea o col·laboració</h3>
-            <p data-i18n="c_a_p">
-              Tens un repte, un projecte o una necessitat? Escriu-nos i et proposem el millor format (open lab, hack-lab, sessió de transferència o matchmaking).
+            <h3 data-i18n="join_a_h">Com pots entrar</h3>
+            <p data-i18n="join_a_p">
+              Busquem gent amb ganes de fer: artistes, tecnòlegs, investigadors, institucions i indústria creativa.
+              Si tens una idea, un repte o ganes de sumar-te a un sprint, escriu-nos.
             </p>
+            <ul class="list">
+              <li data-i18n="join_a_1"><b>Participants</b>: aporta talent i construïm junts</li>
+              <li data-i18n="join_a_2"><b>Partners</b>: proposeu reptes i co-desenvolupeu pilots</li>
+              <li data-i18n="join_a_3"><b>Mentors</b>: ajudeu a accelerar i transferir coneixement</li>
+            </ul>
+
             <div class="ctaRow">
-              <a class="btn primary" href="mailto:contact@yourdomain.org" data-i18n="c_email">Enviar email</a>
-              <button class="btn" id="copyPitch" type="button" data-i18n="c_copy">Copiar text curt</button>
+              <a class="btn primary" id="emailJoin" href="mailto:contact@yourdomain.org" data-i18n="join_cta_email">Vull sumar-m’hi</a>
+              <button class="btn" id="copyPitch" type="button" data-i18n="join_cta_copy">Copiar text curt</button>
+            </div>
+
+            <div class="note" data-i18n="join_note">
+              Nota: aquesta pàgina és pública. Substitueix “contact@yourdomain.org” i l’enllaç del repositori quan el tingueu.
             </div>
           </div>
 
           <div class="block reveal">
-            <h3 data-i18n="c_b_h">Info (placeholders)</h3>
-            <ul class="list">
-              <li><span style="opacity:.65" data-i18n="c_b_1k">Email:</span> contact@yourdomain.org</li>
-              <li><span style="opacity:.65" data-i18n="c_b_2k">Base:</span> Barcelona</li>
-              <li><span style="opacity:.65" data-i18n="c_b_3k">Repositori:</span> github.com/your-org/constellation-labs</li>
-            </ul>
-            <div class="ctaRow">
-              <a class="btn" href="#about" data-i18n="c_back">Tornar a dalt</a>
+            <h3 data-i18n="join_b_h">Escriu-nos (sense fricció)</h3>
+            <p data-i18n="join_b_p">Omple això i copia el missatge — o envia’l directament per email.</p>
+
+            <div class="formRow" aria-label="Interest form (local only)">
+              <input class="input" id="fName" placeholder="Nom / Name" />
+              <input class="input" id="fOrg" placeholder="Organització / Organization" />
             </div>
+            <div class="formRow">
+              <input class="input" id="fEmail" placeholder="Email" />
+              <input class="input" id="fRole" placeholder="Rol (artista, dev, institució…)" />
+            </div>
+            <div class="formRow" style="grid-template-columns:1fr;">
+              <textarea class="input textarea" id="fMsg" placeholder="Explica’ns què vols fer (idea, repte, col·laboració)…"></textarea>
+            </div>
+            <div class="ctaRow">
+              <button class="btn" id="buildEmail" type="button" data-i18n="join_build">Generar email</button>
+              <a class="btn" id="mailtoBuilt" href="#" data-i18n="join_send" style="pointer-events:none; opacity:.6;">Enviar</a>
+            </div>
+            <div class="note" id="builtNote"></div>
           </div>
         </div>
       </div>
@@ -707,12 +768,13 @@
     <footer>
       <div class="wrap">
         <div class="footerRow">
-          <div class="footMono" id="footLeft">Constellation Labs • Hack Lab • Barcelona</div>
+          <div class="footMono" id="footLeft">Laboratori Constel·lació • Barcelona</div>
           <div class="smallLinks">
             <a href="#about" data-i18n="nav_about">Què és</a>
             <a href="#how" data-i18n="nav_how">Com funciona</a>
             <a href="#focus" data-i18n="nav_focus">Àrees</a>
-            <a href="#outputs" data-i18n="nav_outputs">Outputs</a>
+            <a href="#outputs" data-i18n="nav_outputs">Recursos</a>
+            <a href="#join" data-i18n="nav_join">Participa</a>
           </div>
         </div>
         <div style="margin-top:10px;" class="footMono" id="footNote"></div>
@@ -721,215 +783,247 @@
   </main>
 
   <script>
-    // ---------- i18n (simple + bulletproof) ----------
+    // ---------- i18n ----------
     const i18n = {
       ca: {
-        brandTitle: "CONSTELLATION LABS",
+        brandTitle: "LABORATORI CONSTEL·LACIÓ",
         brandSub: "Hack Lab • Infraestructura compartida • Barcelona",
+
         nav_about: "Què és",
         nav_how: "Com funciona",
         nav_focus: "Àrees",
-        nav_outputs: "Outputs",
-        nav_connect: "Contacte",
+        nav_outputs: "Recursos",
+        nav_join: "Participa",
 
-        hero_kicker: "hack lab permanent / recerca aplicada / col·laboració real",
-        hero_title: "Un hack lab per construir el futur cultural — amb IA, XR i creativitat radical.",
-        hero_lead: "Constellation Labs és una plataforma oberta a professionals i institucions que volen experimentar, prototipar i compartir coneixement a la intersecció entre art, ciència i tecnologia. Base a Barcelona, connectada amb l’ecosistema català i internacional.",
-        pill_mode_b: "Mode",
-        pill_mode_v: "Labs facilitats + sprints col·laboratius",
-        pill_focus_b: "Focus",
-        pill_output_b: "Output",
-        pill_output_v: "Open-source + metodologies + casos d’ús",
-        cta_partner: "Proposar col·laboració",
-        cta_scroll: "Veure com funciona",
+        hero_kicker: "comunitat / prototipatge / transferència",
+        hero_title: "Un laboratori obert per crear cultura digital amb IA, XR i tecnologies emergents.",
+        hero_lead: "Laboratori Constel·lació connecta artistes, institucions, universitats i indústria creativa per experimentar, construir pilots i compartir coneixement. Volem que cada cicle deixi recursos útils, documentats i reutilitzables.",
+        pill_for_b: "Per a",
+        pill_for_v: "artistes • centres • universitats • indústria creativa",
+        pill_do_b: "Fem",
+        pill_do_v: "labs • sprints • trobades • pilots",
+        pill_leave_b: "Deixem",
+        pill_leave_v: "guies • codi • metodologies • casos",
+        cta_join: "Vull participar",
+        cta_repo: "Veure recursos",
+
+        fast_1_h: "Porta una idea",
+        fast_1_p: "Propostes, reptes, necessitats. Si és interessant, hi construïm un format.",
+        fast_1_b1: "Convocatòria contínua",
+        fast_1_b2: "Onboarding i equip",
+        fast_2_h: "Construeix amb nosaltres",
+        fast_2_p: "Labs facilitats i sprints per passar d’idea a prototip provable.",
+        fast_2_b1: "Tècnic + conceptual",
+        fast_2_b2: "Iteració ràpida",
+        fast_3_h: "Comparteix el que aprens",
+        fast_3_p: "Documentació i recursos perquè l’ecosistema català avanci més ràpid.",
+        fast_3_b1: "Guies i plantilles",
+        fast_3_b2: "Repositori obert",
 
         about_h: "Què és",
-        about_hint: "Una infraestructura compartida per experimentar millor, més ràpid i amb criteri",
-        about_a_h: "Un espai de recerca i prototipatge",
-        about_a_p: "Un lloc on equips mixtos (artistes, tecnòlegs, investigadors i institucions) poden provar idees amb suport de metodologies, facilitació i una cultura de documentació. Menys “demo chaos”, més aprenentatge acumulatiu.",
-        about_b_h: "Una comunitat que connecta sectors",
-        about_b_p: "Constellation Labs actua com a pont entre cultura, acadèmia i indústria creativa. Connectem persones, projectes i oportunitats amb formats clars: labs oberts, hack-labs, sessions de transferència i matchmaking.",
-        tag_applied: "recerca aplicada",
-        tag_tools: "eines avançades",
-        tag_methods: "metodologies",
-        tag_network: "xarxa",
-        tag_collab: "col·laboració",
-        tag_sustain: "sostenibilitat",
+        about_hint: "Un lloc per provar, construir i connectar — amb vocació pública",
+        about_a_h: "Infraestructura compartida",
+        about_a_p: "Un espai estable on la cultura digital pot fer recerca aplicada i prototipatge amb continuïtat. Menys projectes aïllats, més aprenentatge acumulatiu.",
+        about_a_1: "Facilitació i metodologies",
+        about_a_2: "Eines i suport tècnic",
+        about_a_3: "Documentació per reutilitzar",
+        about_b_h: "Comunitat i xarxa",
+        about_b_p: "Connectem artistes, institucions, universitats i indústria creativa per activar col·laboracions i pilots. L’objectiu: enfortir l’ecosistema català amb resultats visibles.",
 
         how_h: "Com funciona",
-        how_hint: "Un sistema operatiu per a labs: de la idea al repositori",
-        how_1_l: "Entrada",
-        how_1_h: "Convocatòria contínua i onboarding",
-        how_1_p: "Portes d’entrada clares: propostes, necessitats, reptes. T’ajudem a trobar el format i l’equip adequat.",
-        how_2_l: "Lab",
-        how_2_h: "Labs facilitats i sprints col·laboratius",
-        how_2_p: "Treball intensiu amb facilitació (tècnica + conceptual) i una estructura que converteix temps de lab en resultats reutilitzables.",
-        how_3_l: "Transferència",
-        how_3_h: "Debrief, guies i casos d’ús",
-        how_3_p: "Cada cicle tanca amb síntesi: què ha funcionat, què no, i com ho pot reutilitzar el sector.",
-        how_4_l: "Publicació",
-        how_4_h: "Open-source (quan convingui) + documentació",
-        how_4_p: "Compartim projectes, codi i metodologies en un repositori obert per reforçar l’ecosistema i accelerar la innovació cultural.",
+        how_hint: "De la proposta al pilot — i del pilot al repositori",
+        how_a_h: "Formats",
+        how_a_p: "Treball amb formats clars per aconseguir resultats reals i compartibles.",
+        how_a_1: "Open Labs — sessions obertes per explorar i connectar",
+        how_a_2: "Hack Sprints — prototipatge intensiu amb facilitació",
+        how_a_3: "Transferència — sessions de síntesi i publicació de recursos",
+        how_b_h: "Resultats",
+        how_b_p: "Cada cicle deixa peces reutilitzables: no només demos.",
+        how_b_1: "Pilots i proves de concepte",
+        how_b_2: "Guies, playbooks i plantilles",
+        how_b_3: "Codi i repositoris open-source (quan convingui)",
 
         focus_h: "Àrees",
-        focus_hint: "Tecnologies emergents amb criteri cultural i impacte real",
+        focus_hint: "Tecnologies emergents, però amb criteri cultural",
         focus_a_h: "XR / Realitat immersiva",
-        focus_a_p: "Prototips, instal·lacions i experiències: de l’espai expositiu a l’ús públic, amb accessibilitat i disseny d’experiència.",
-        focus_a_1: "AR / VR / MR • experiències en temps real",
+        focus_a_p: "Experiències, instal·lacions i prototips: del concepte a l’espai públic o expositiu.",
+        focus_a_1: "AR / VR / MR • temps real",
         focus_a_2: "Interacció • narrativa • performance",
-        focus_a_3: "Protocols d’accessibilitat i UX",
+        focus_a_3: "UX i accessibilitat",
         focus_b_h: "IA creativa i sistemes generatius",
-        focus_b_p: "Models, agents i pipelines per a creació, anàlisi i mediació cultural — amb ètica, transparència i bones pràctiques.",
-        focus_b_1: "RAG / agents • pipelines multimodals",
+        focus_b_p: "Pipelines, agents i eines per crear, analitzar i mediar continguts amb transparència.",
+        focus_b_1: "Agents / RAG • multimodal",
         focus_b_2: "IA per a art, recerca i educació",
-        focus_b_3: "Documentació i reproductibilitat",
+        focus_b_3: "Reproductibilitat i bones pràctiques",
         focus_c_h: "Robòtica, sensors i espais interactius",
-        focus_c_p: "Coreografies de dades i presència: sensors, actuadors, màquines i instal·lacions que responen al públic i al context.",
+        focus_c_p: "Instal·lacions que responen a la presència: dades, cos i entorn.",
         focus_c_1: "Sensors • tracking • comportaments",
         focus_c_2: "Instal·lacions híbrides",
-        focus_c_3: "Seguretat, durabilitat i manteniment",
+        focus_c_3: "Durabilitat i manteniment",
         focus_d_h: "Creative coding i craft digital",
-        focus_d_p: "Eines, visuals i sistemes: TouchDesigner, web, motores temps real, audio espacial — del prototip a la producció.",
-        focus_d_1: "Temps real • visuals • audio",
-        focus_d_2: "Toolkits i plantilles reutilitzables",
-        focus_d_3: "Formació avançada i peer-learning",
+        focus_d_p: "Temps real, visuals, audio espacial i engines: del prototip a producció.",
+        focus_d_1: "Web • TouchDesigner • engines",
+        focus_d_2: "Toolkits reutilitzables",
+        focus_d_3: "Peer-learning i mentoratge",
 
-        out_h: "Outputs",
-        out_hint: "Coses que la gent pot usar: repositori, guies, casos i prototips",
-        out_a_h: "Repositori open-source",
-        out_a_p: "Un arxiu viu de projectes, codi, playbooks i metodologies. No només “post”: recursos que acceleren el treball del sector català.",
-        out_b_h: "Casos d’ús i pilots",
-        out_b_p: "Prototips i proves de concepte amb valor sectorial: formats replicables, documentats i preparats per créixer en col·laboracions.",
-        out_c_h: "Com ens mesures (simple i creïble)",
-        out_c_p: "Ens importa l’impacte real: col·laboracions activades, coneixement reutilitzable i capacitat sectorial. Menys “vanity metrics”, més valor acumulatiu.",
-        out_c_1: "Connexions que es converteixen en pilots o projectes",
-        out_c_2: "Recursos publicats i reutilitzats (codi, guies, plantilles)",
-        out_c_3: "Formació avançada i mentoratge (qualitat + continuïtat)",
-        tag_repo: "repositori",
+        out_h: "Recursos",
+        out_hint: "Allò que queda: repositori, guies i projectes",
+        out_a_h: "Repositori obert del sector",
+        out_a_p: "Un repositori públic amb projectes, codi, metodologies i documentació desenvolupada dins del laboratori. Un recurs per reforçar l’ecosistema català i facilitar la transferència real de coneixement.",
+        out_repo_btn: "Veure repositori (placeholder)",
+        out_repo_copy: "Copiar enllaç",
+        out_b_h: "Pilots i casos d’ús",
+        out_b_p: "Prototips i proves de concepte amb valor comunitari: replicables, documentats i preparats per créixer en col·laboracions.",
+        out_b_1: "Formats replicables",
+        out_b_2: "Documentació clara",
+        out_b_3: "Demostracions públiques",
+        out_c_h: "Impacte acumulatiu",
+        out_c_p: "No només projectes puntuals. Construïm infraestructura, xarxa i coneixement que es manté en el temps.",
+
+        join_h: "Participa",
+        join_hint: "Entra com a participant, partner o col·laborador",
+        join_a_h: "Com pots entrar",
+        join_a_p: "Busquem gent amb ganes de fer: artistes, tecnòlegs, investigadors, institucions i indústria creativa. Si tens una idea, un repte o ganes de sumar-te a un sprint, escriu-nos.",
+        join_a_1: "Participants: aporta talent i construïm junts",
+        join_a_2: "Partners: proposeu reptes i co-desenvolupeu pilots",
+        join_a_3: "Mentors: ajudeu a accelerar i transferir coneixement",
+        join_cta_email: "Vull sumar-m’hi",
+        join_cta_copy: "Copiar text curt",
+        join_b_h: "Escriu-nos (sense fricció)",
+        join_b_p: "Omple això i copia el missatge — o envia’l directament per email.",
+        join_build: "Generar email",
+        join_send: "Enviar",
+        join_note: "Nota: aquesta pàgina és pública. Substitueix “contact@yourdomain.org” i l’enllaç del repositori quan el tingueu.",
+
+        tag_network: "xarxa",
+        tag_collab: "col·laboració",
+        tag_transfer: "transferència",
         tag_templates: "plantilles",
         tag_playbooks: "playbooks",
-        tag_prototypes: "prototips",
-        tag_partners: "partners",
-        tag_transfer: "transferència",
+        tag_code: "codi",
 
-        c_h: "Contacte",
-        c_hint: "Canvia aquests placeholders per dades públiques",
-        c_a_h: "Proposa una idea o col·laboració",
-        c_a_p: "Tens un repte, un projecte o una necessitat? Escriu-nos i et proposem el millor format (open lab, hack-lab, sessió de transferència o matchmaking).",
-        c_email: "Enviar email",
-        c_copy: "Copiar text curt",
-        c_b_h: "Info (placeholders)",
-        c_b_1k: "Email:",
-        c_b_2k: "Base:",
-        c_b_3k: "Repositori:",
-        c_back: "Tornar a dalt",
-
-        footLeft: "Constellation Labs • Hack Lab • Barcelona",
+        footLeft: "Laboratori Constel·lació • Barcelona",
         footNote: "Pàgina pública / versió teaser. Substitueix els placeholders de contacte i repositori quan estigui llest."
       },
 
       en: {
-        brandTitle: "CONSTELLATION LABS",
+        brandTitle: "LABORATORI CONSTEL·LACIÓ",
         brandSub: "Hack Lab • Shared Infrastructure • Barcelona",
+
         nav_about: "What it is",
         nav_how: "How it works",
         nav_focus: "Focus",
-        nav_outputs: "Outputs",
-        nav_connect: "Contact",
+        nav_outputs: "Resources",
+        nav_join: "Join",
 
-        hero_kicker: "permanent hack lab / applied research / real collaboration",
-        hero_title: "A hack lab to build the cultural future — with AI, XR, and radical creativity.",
-        hero_lead: "Constellation Labs is a platform for professionals and institutions to experiment, prototype, and share knowledge at the intersection of art, science, and technology. Based in Barcelona, connected to the Catalan and international ecosystem.",
-        pill_mode_b: "Mode",
-        pill_mode_v: "Facilitated labs + collaborative sprints",
-        pill_focus_b: "Focus",
-        pill_output_b: "Output",
-        pill_output_v: "Open-source + methods + use-cases",
-        cta_partner: "Propose a collaboration",
-        cta_scroll: "See how it works",
+        hero_kicker: "community / prototyping / knowledge transfer",
+        hero_title: "An open lab to build digital culture with AI, XR, and emerging technologies.",
+        hero_lead: "Laboratori Constel·lació connects artists, institutions, universities, and the creative industry to experiment, build pilots, and share knowledge. Each cycle leaves useful, documented, reusable resources.",
+        pill_for_b: "For",
+        pill_for_v: "artists • institutions • universities • creative industry",
+        pill_do_b: "We do",
+        pill_do_v: "labs • sprints • meetups • pilots",
+        pill_leave_b: "We leave",
+        pill_leave_v: "guides • code • methods • use-cases",
+        cta_join: "I want to join",
+        cta_repo: "See resources",
+
+        fast_1_h: "Bring an idea",
+        fast_1_p: "Proposals, challenges, needs. If it’s exciting, we shape a format around it.",
+        fast_1_b1: "Open intake",
+        fast_1_b2: "Onboarding & team",
+        fast_2_h: "Build with us",
+        fast_2_p: "Facilitated labs and sprints to go from idea to a testable prototype.",
+        fast_2_b1: "Technical + conceptual",
+        fast_2_b2: "Fast iteration",
+        fast_3_h: "Share what you learn",
+        fast_3_p: "Documentation and resources to strengthen the Catalan ecosystem.",
+        fast_3_b1: "Guides & templates",
+        fast_3_b2: "Open repository",
 
         about_h: "What it is",
-        about_hint: "Shared infrastructure to experiment better, faster, and with intention",
-        about_a_h: "A space for research and prototyping",
-        about_a_p: "A place where mixed teams (artists, technologists, researchers, institutions) can test ideas with strong methods, facilitation, and a documentation culture. Less demo chaos, more cumulative learning.",
-        about_b_h: "A community that connects sectors",
-        about_b_p: "Constellation Labs bridges culture, academia, and the creative industry. We connect people, projects, and opportunities through clear formats: open labs, hack-labs, transfer sessions, and matchmaking.",
-        tag_applied: "applied research",
-        tag_tools: "advanced tools",
-        tag_methods: "methods",
-        tag_network: "network",
-        tag_collab: "collaboration",
-        tag_sustain: "sustainability",
+        about_hint: "A place to test, build, and connect — with a public-facing mission",
+        about_a_h: "Shared infrastructure",
+        about_a_p: "A stable space for applied research and prototyping in digital culture. Fewer isolated projects, more cumulative learning.",
+        about_a_1: "Facilitation and methods",
+        about_a_2: "Tools and technical support",
+        about_a_3: "Documentation for reuse",
+        about_b_h: "Community and network",
+        about_b_p: "We connect artists, institutions, universities, and the creative industry to activate collaborations and pilots — strengthening the ecosystem with visible outcomes.",
 
         how_h: "How it works",
-        how_hint: "An operating system for labs: from idea to repository",
-        how_1_l: "Intake",
-        how_1_h: "Continuous intake and onboarding",
-        how_1_p: "Clear entry points: proposals, needs, challenges. We help you pick the right format and team.",
-        how_2_l: "Lab",
-        how_2_h: "Facilitated labs and collaborative sprints",
-        how_2_p: "Focused work with facilitation (technical + conceptual) and structure that turns lab time into reusable outcomes.",
-        how_3_l: "Transfer",
-        how_3_h: "Debrief, guides, and use-cases",
-        how_3_p: "Each cycle closes with synthesis: what worked, what didn’t, and how the sector can reuse it.",
-        how_4_l: "Publish",
-        how_4_h: "Open-source (when appropriate) + documentation",
-        how_4_p: "We share projects, code, and methodologies in an open repository to strengthen the ecosystem and accelerate cultural innovation.",
+        how_hint: "From proposal to pilot — and from pilot to repository",
+        how_a_h: "Formats",
+        how_a_p: "Clear formats designed for real, shareable outcomes.",
+        how_a_1: "Open Labs — open sessions to explore and connect",
+        how_a_2: "Hack Sprints — intense prototyping with facilitation",
+        how_a_3: "Transfer — synthesis sessions and resource publication",
+        how_b_h: "Outcomes",
+        how_b_p: "Each cycle leaves reusable pieces — not just demos.",
+        how_b_1: "Pilots and proofs-of-concept",
+        how_b_2: "Guides, playbooks, templates",
+        how_b_3: "Code and open-source repositories (when appropriate)",
 
         focus_h: "Focus",
-        focus_hint: "Emerging tech with cultural rigor and real-world impact",
+        focus_hint: "Emerging tech, grounded in cultural practice",
         focus_a_h: "XR / Immersive media",
-        focus_a_p: "Prototypes, installations, and experiences — from exhibition space to public use, with accessibility and experience design.",
-        focus_a_1: "AR / VR / MR • real-time experiences",
+        focus_a_p: "Experiences, installations, and prototypes — from concept to public or exhibition space.",
+        focus_a_1: "AR / VR / MR • real-time",
         focus_a_2: "Interaction • narrative • performance",
-        focus_a_3: "Accessibility and UX protocols",
+        focus_a_3: "UX and accessibility",
         focus_b_h: "Creative AI & generative systems",
-        focus_b_p: "Models, agents, and pipelines for creation, analysis, and cultural mediation — with ethics, transparency, and best practices.",
-        focus_b_1: "RAG / agents • multimodal pipelines",
-        focus_b_2: "AI for art, research, and education",
-        focus_b_3: "Documentation and reproducibility",
+        focus_b_p: "Pipelines, agents, and tools to create, analyze, and mediate content with transparency.",
+        focus_b_1: "Agents / RAG • multimodal",
+        focus_b_2: "AI for art, research, education",
+        focus_b_3: "Reproducibility and best practices",
         focus_c_h: "Robotics, sensors, interactive spaces",
-        focus_c_p: "Choreographies of data and presence: sensors, actuators, machines, and installations that respond to people and context.",
+        focus_c_p: "Installations responding to presence: data, body, environment.",
         focus_c_1: "Sensors • tracking • behaviors",
         focus_c_2: "Hybrid installations",
-        focus_c_3: "Safety, durability, maintenance",
+        focus_c_3: "Durability and maintenance",
         focus_d_h: "Creative coding & digital craft",
-        focus_d_p: "Tools, visuals, and systems: TouchDesigner, web, real-time engines, spatial audio — from prototype to production.",
-        focus_d_1: "Real-time • visuals • audio",
-        focus_d_2: "Reusable toolkits and templates",
-        focus_d_3: "Advanced training and peer-learning",
+        focus_d_p: "Real-time, visuals, spatial audio, engines — from prototype to production.",
+        focus_d_1: "Web • TouchDesigner • engines",
+        focus_d_2: "Reusable toolkits",
+        focus_d_3: "Peer learning & mentoring",
 
-        out_h: "Outputs",
-        out_hint: "Things people can use: repository, guides, cases, prototypes",
-        out_a_h: "Open-source repository",
-        out_a_p: "A living archive of projects, code, playbooks, and methods. Not just posts — resources that speed up the sector’s work.",
-        out_b_h: "Use-cases and pilots",
-        out_b_p: "Prototypes and proofs-of-concept with sector value: replicable formats, documented and ready to scale through partnerships.",
-        out_c_h: "How we measure (simple and credible)",
-        out_c_p: "We care about real impact: collaborations activated, reusable knowledge, and sector capacity. Fewer vanity metrics, more cumulative value.",
-        out_c_1: "Connections that become pilots or projects",
-        out_c_2: "Resources published and reused (code, guides, templates)",
-        out_c_3: "Advanced training and mentoring (quality + continuity)",
-        tag_repo: "repository",
+        out_h: "Resources",
+        out_hint: "What remains: repository, guides, projects",
+        out_a_h: "Open sector repository",
+        out_a_p: "A public repository with projects, code, methods, and documentation developed inside the lab — strengthening the Catalan ecosystem and enabling real knowledge transfer.",
+        out_repo_btn: "View repository (placeholder)",
+        out_repo_copy: "Copy link",
+        out_b_h: "Pilots and use-cases",
+        out_b_p: "Community-value prototypes: replicable, documented, ready to scale through collaborations.",
+        out_b_1: "Replicable formats",
+        out_b_2: "Clear documentation",
+        out_b_3: "Public demos",
+        out_c_h: "Cumulative impact",
+        out_c_p: "Not just one-off projects. We build infrastructure, network, and knowledge that lasts over time.",
+
+        join_h: "Join",
+        join_hint: "Join as participant, partner, or collaborator",
+        join_a_h: "How to join",
+        join_a_p: "We’re looking for people who want to build: artists, technologists, researchers, institutions, and the creative industry. If you have an idea, a challenge, or want to join a sprint, write us.",
+        join_a_1: "Participants: bring talent and build together",
+        join_a_2: "Partners: propose challenges and co-develop pilots",
+        join_a_3: "Mentors: help accelerate and transfer knowledge",
+        join_cta_email: "I want to join",
+        join_cta_copy: "Copy short text",
+        join_b_h: "Write to us (no friction)",
+        join_b_p: "Fill this in and copy the message — or send it directly by email.",
+        join_build: "Generate email",
+        join_send: "Send",
+        join_note: "Note: this page is public. Replace “contact@yourdomain.org” and the repository link when ready.",
+
+        tag_network: "network",
+        tag_collab: "collaboration",
+        tag_transfer: "transfer",
         tag_templates: "templates",
         tag_playbooks: "playbooks",
-        tag_prototypes: "prototypes",
-        tag_partners: "partners",
-        tag_transfer: "transfer",
+        tag_code: "code",
 
-        c_h: "Contact",
-        c_hint: "Replace these placeholders with public details",
-        c_a_h: "Propose an idea or collaboration",
-        c_a_p: "Have a challenge, a project, or a need? Write us and we’ll propose the right format (open lab, hack-lab, transfer session, or matchmaking).",
-        c_email: "Send email",
-        c_copy: "Copy short text",
-        c_b_h: "Info (placeholders)",
-        c_b_1k: "Email:",
-        c_b_2k: "Base:",
-        c_b_3k: "Repository:",
-        c_back: "Back to top",
-
-        footLeft: "Constellation Labs • Hack Lab • Barcelona",
+        footLeft: "Laboratori Constel·lació • Barcelona",
         footNote: "Public teaser page. Replace contact/repository placeholders when ready."
       }
     };
@@ -937,24 +1031,21 @@
     function applyLang(lang){
       const dict = i18n[lang] || i18n.ca;
       document.documentElement.lang = lang;
-      // text nodes
+
       document.querySelectorAll("[data-i18n]").forEach(el=>{
         const key = el.getAttribute("data-i18n");
         if (dict[key] !== undefined) el.textContent = dict[key];
       });
-      // brand / footer
+
       document.getElementById("brandTitle").textContent = dict.brandTitle;
       document.getElementById("brandSub").textContent = dict.brandSub;
       document.getElementById("footLeft").textContent = dict.footLeft;
       document.getElementById("footNote").textContent = dict.footNote;
 
-      // buttons state
       document.getElementById("btnCA").classList.toggle("active", lang === "ca");
       document.getElementById("btnEN").classList.toggle("active", lang === "en");
 
       localStorage.setItem("constellation_lang", lang);
-
-      // retype console
       typeConsole(lang);
     }
 
@@ -981,34 +1072,32 @@
 
     const consoleLines = {
       ca: [
-        "boot: constellation_labs v1.0",
-        "mode: hack_lab / shared infrastructure",
+        "boot: laboratori_constel·lació",
+        "signal: comunitat oberta per construir cultura digital",
         "base: barcelona",
-        "focus: XR | IA | robòtica | creative coding",
+        "who: artistes | institucions | universitats | indústria creativa",
         "",
-        "init: open_labs ......................... [ok]",
-        "init: hack_labs (sprints) ............... [ok]",
-        "init: knowledge_transfer ................ [ok]",
-        "init: matchmaking (p2p/b2b) ............. [ok]",
-        "init: open_source_repo .................. [ok]",
+        "open: porta una idea / suma't a un sprint",
+        "build: prototips • pilots • demostracions",
+        "share: guies • codi • metodologies",
         "",
-        "status: online",
-        "next: scroll to inspect modules",
+        "repo: open_source_repository ............ [planned]",
+        "status: invitació oberta",
+        "next: baixa i participa",
       ],
       en: [
-        "boot: constellation_labs v1.0",
-        "mode: hack_lab / shared infrastructure",
+        "boot: laboratori_constel·lació",
+        "signal: an open community building digital culture",
         "base: barcelona",
-        "focus: XR | AI | robotics | creative coding",
+        "who: artists | institutions | universities | creative industry",
         "",
-        "init: open_labs ......................... [ok]",
-        "init: hack_labs (sprints) ............... [ok]",
-        "init: knowledge_transfer ................ [ok]",
-        "init: matchmaking (p2p/b2b) ............. [ok]",
-        "init: open_source_repo .................. [ok]",
+        "open: bring an idea / join a sprint",
+        "build: prototypes • pilots • demos",
+        "share: guides • code • methods",
         "",
-        "status: online",
-        "next: scroll to inspect modules",
+        "repo: open_source_repository ............ [planned]",
+        "status: open invitation",
+        "next: scroll and join",
       ]
     };
 
@@ -1045,8 +1134,8 @@
     document.getElementById("btnEN").addEventListener("click", ()=> applyLang("en"));
 
     // ---------- copy pitch ----------
-    const pitchCA = "Constellation Labs és un hack lab i infraestructura compartida per a recerca aplicada, prototipatge i transferència de coneixement en cultura digital (XR, IA, robòtica i creative coding). Busquem col·laboracions amb artistes, institucions, universitats i indústria creativa per desenvolupar pilots i recursos open-source reutilitzables.";
-    const pitchEN = "Constellation Labs is a hack lab and shared infrastructure for applied research, prototyping, and knowledge transfer in digital culture (XR, AI, robotics, creative coding). We’re looking for collaborations with artists, institutions, universities, and the creative industry to develop pilots and reusable open-source resources.";
+    const pitchCA = "Hola! M’agradaria sumar-me a Laboratori Constel·lació. Sóc (rol) i m’interessa participar en labs/sprints per prototipar cultura digital (IA, XR, etc.). Tinc una idea/rete: (breu descripció). Podem parlar?";
+    const pitchEN = "Hi! I’d love to join Laboratori Constel·lació. I’m a (role) and I’m interested in participating in labs/sprints to prototype digital culture (AI, XR, etc.). I have an idea/challenge: (short description). Can we talk?";
 
     document.getElementById("copyPitch").addEventListener("click", async (e)=>{
       const lang = localStorage.getItem("constellation_lang") || "ca";
@@ -1058,8 +1147,65 @@
         btn.textContent = (lang === "en") ? "Copied ✓" : "Copiat ✓";
         setTimeout(()=> btn.textContent = old, 1200);
       }catch{
-        alert((lang === "en") ? "Copy failed. Please copy from page source." : "No s’ha pogut copiar. Copia-ho des del codi font.");
+        alert((lang === "en") ? "Copy failed. Please copy manually." : "No s’ha pogut copiar. Copia-ho manualment.");
       }
+    });
+
+    // ---------- repository helpers ----------
+    const repoPlaceholder = "https://github.com/your-org/laboratori-constellacio";
+    document.getElementById("repoBtn").addEventListener("click", (e)=>{
+      e.preventDefault();
+      alert("Repositori encara en mode placeholder:\n" + repoPlaceholder + "\n\nQuan el tingueu, substituïu l’enllaç i traieu aquest missatge.");
+    });
+
+    document.getElementById("copyRepo").addEventListener("click", async (e)=>{
+      try{
+        await navigator.clipboard.writeText(repoPlaceholder);
+        const btn = e.currentTarget;
+        const old = btn.textContent;
+        btn.textContent = (localStorage.getItem("constellation_lang") === "en") ? "Copied ✓" : "Copiat ✓";
+        setTimeout(()=> btn.textContent = old, 1200);
+      }catch{
+        alert("No s’ha pogut copiar. Copia-ho manualment:\n" + repoPlaceholder);
+      }
+    });
+
+    // ---------- lightweight email builder ----------
+    const buildBtn = document.getElementById("buildEmail");
+    const mailtoBuilt = document.getElementById("mailtoBuilt");
+    const builtNote = document.getElementById("builtNote");
+
+    function enc(s){ return encodeURIComponent(s || ""); }
+
+    buildBtn.addEventListener("click", ()=>{
+      const lang = localStorage.getItem("constellation_lang") || "ca";
+      const name = document.getElementById("fName").value.trim();
+      const org  = document.getElementById("fOrg").value.trim();
+      const em   = document.getElementById("fEmail").value.trim();
+      const role = document.getElementById("fRole").value.trim();
+      const msg  = document.getElementById("fMsg").value.trim();
+
+      const subject = (lang === "en") ? "Join — Laboratori Constel·lació" : "Participar — Laboratori Constel·lació";
+
+      const body =
+`Hola!%0D%0A
+M’agradaria connectar amb Laboratori Constel·lació.%0D%0A%0D%0A
+Nom: ${enc(name)}%0D%0A
+Organització: ${enc(org)}%0D%0A
+Email: ${enc(em)}%0D%0A
+Rol: ${enc(role)}%0D%0A%0D%0A
+Missatge:%0D%0A${enc(msg)}%0D%0A%0D%0A
+Gràcies!`;
+
+      // NOTE: mailto doesn't support From reliably; it's ok for a public teaser.
+      const href = `mailto:contact@yourdomain.org?subject=${enc(subject)}&body=${body}`;
+
+      mailtoBuilt.href = href;
+      mailtoBuilt.style.pointerEvents = "auto";
+      mailtoBuilt.style.opacity = "1";
+      builtNote.textContent = (lang === "en")
+        ? "Email generated. Click “Send” to open your mail client."
+        : "Email generat. Clica “Enviar” per obrir el teu client de correu.";
     });
 
     // ---------- init ----------
