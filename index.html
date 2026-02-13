@@ -1,10 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html lang="ca">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="color-scheme" content="dark" />
-  <title>Constellation Labs — Shared Infrastructure for Digital Culture</title>
+  <title>Laboratori Constel·lació — Constellation Labs (CLT514)</title>
+
   <style>
     :root{
       --bg: #070A0F;
@@ -39,7 +40,6 @@
       overflow-x:hidden;
     }
 
-    /* Subtle star grid */
     .bggrid{
       position:fixed; inset:0;
       pointer-events:none;
@@ -68,11 +68,25 @@
       position:relative;
     }
 
+    /* Progress */
+    .progress{
+      position:fixed;
+      top:0;
+      left:0;
+      height: 2px;
+      width: 100%;
+      transform-origin: left;
+      transform: scaleX(0);
+      background: linear-gradient(90deg, rgba(124,224,255,0.95), rgba(183,185,255,0.95), rgba(124,255,178,0.95));
+      z-index: 90;
+      opacity: 0.8;
+    }
+
     /* Top bar */
     .topbar{
       position:sticky;
       top:0;
-      z-index:50;
+      z-index:80;
       backdrop-filter: blur(12px);
       background: linear-gradient(to bottom, rgba(7,10,15,0.85), rgba(7,10,15,0.55));
       border-bottom:1px solid rgba(255,255,255,0.08);
@@ -86,7 +100,7 @@
     }
     .brand{
       display:flex; align-items:center; gap:12px;
-      min-width: 280px;
+      min-width: 300px;
     }
     .logo{
       width:36px; height:36px;
@@ -129,6 +143,7 @@
     .nav{
       display:flex; gap:10px; flex-wrap:wrap;
       justify-content:flex-end;
+      align-items:center;
     }
     .chip{
       font-family: var(--mono);
@@ -152,20 +167,45 @@
       background: linear-gradient(135deg, rgba(183,185,255,0.18), rgba(124,224,255,0.12));
     }
 
-    /* Hero */
-    .hero{
-      padding: 56px 0 24px;
+    .langToggle{
+      display:flex;
+      gap:6px;
+      align-items:center;
+      padding: 6px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.18);
     }
+    .langBtn{
+      appearance:none;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.78);
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 12px;
+      cursor:pointer;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      line-height:1;
+    }
+    .langBtn:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.18); }
+    .langBtn.active{
+      border-color: rgba(183,185,255,0.35);
+      background: linear-gradient(135deg, rgba(183,185,255,0.18), rgba(124,224,255,0.12));
+      color: rgba(255,255,255,0.90);
+    }
+
+    /* Hero */
+    .hero{ padding: 56px 0 24px; }
     .heroGrid{
       display:grid;
-      grid-template-columns: 1.2fr 0.8fr;
+      grid-template-columns: 1.25fr 0.75fr;
       gap: 24px;
       align-items:stretch;
     }
-    @media (max-width: 920px){
-      .heroGrid{ grid-template-columns:1fr; }
-      .brand{ min-width: unset; }
-    }
+    @media (max-width: 920px){ .heroGrid{ grid-template-columns:1fr; } .brand{ min-width: unset; } }
+
     .card{
       border-radius: var(--radius2);
       background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
@@ -175,6 +215,7 @@
       position:relative;
     }
     .card.pad{ padding: 22px; }
+
     .kicker{
       font-family: var(--mono);
       font-size: 12px;
@@ -184,6 +225,7 @@
       display:flex;
       align-items:center;
       gap:10px;
+      flex-wrap:wrap;
     }
     .dot{
       width:8px; height:8px; border-radius:99px;
@@ -195,6 +237,7 @@
       0%,100%{ transform:scale(0.85); opacity:.7; }
       50%{ transform:scale(1.15); opacity:1; }
     }
+
     .title{
       margin: 14px 0 10px;
       font-size: clamp(28px, 3.8vw, 48px);
@@ -206,8 +249,9 @@
       font-size: 16px;
       line-height:1.55;
       color: rgba(255,255,255,0.78);
-      max-width: 62ch;
+      max-width: 70ch;
     }
+
     .metaRow{
       display:flex;
       gap:10px;
@@ -226,16 +270,44 @@
     }
     .pill b{ color: rgba(255,255,255,0.90); font-weight:600; }
 
-    /* Right: Program console */
+    .flagRow{
+      margin-top: 14px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .flag{
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.18);
+      color: rgba(255,255,255,0.74);
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      max-width: 100%;
+    }
+    .flag .icon{
+      width: 10px; height: 10px; border-radius: 99px; margin-top: 4px;
+      background: rgba(255,255,255,0.35);
+    }
+    .flag.good .icon{ background: rgba(124,255,178,0.85); box-shadow: 0 0 18px rgba(124,255,178,0.25); }
+    .flag.warn .icon{ background: rgba(255,224,138,0.92); box-shadow: 0 0 18px rgba(255,224,138,0.18); }
+    .flag.bad .icon{ background: rgba(255,107,107,0.85); box-shadow: 0 0 18px rgba(255,107,107,0.18); }
+    .flag span{ color: rgba(255,255,255,0.62); }
+    .flag b{ color: rgba(255,255,255,0.86); font-weight:600; }
+
+    /* Console */
     .consoleHeader{
       display:flex; align-items:center; justify-content:space-between;
       padding: 14px 16px;
       border-bottom:1px solid rgba(255,255,255,0.10);
       background: rgba(0,0,0,0.18);
     }
-    .windowDots{
-      display:flex; gap:7px; align-items:center;
-    }
+    .windowDots{ display:flex; gap:7px; align-items:center; }
     .wd{ width:10px; height:10px; border-radius:50%; opacity:0.85; }
     .wd.r{ background:#FF6B6B; }
     .wd.y{ background:#FFD56B; }
@@ -252,19 +324,14 @@
       font-size: 12px;
       color: rgba(255,255,255,0.78);
       line-height:1.55;
-      height: 330px;
+      height: 360px;
       overflow:hidden;
       position:relative;
     }
-    .console pre{
-      margin:0;
-      white-space:pre-wrap;
-      word-break:break-word;
-    }
+    .console pre{ margin:0; white-space:pre-wrap; word-break:break-word; }
     .cursor{
       display:inline-block;
-      width: 9px;
-      height: 14px;
+      width: 9px; height: 14px;
       background: rgba(255,255,255,0.70);
       margin-left: 6px;
       transform: translateY(2px);
@@ -273,7 +340,6 @@
       opacity:0.8;
     }
     @keyframes blink{ 50%{ opacity:0; } }
-
     .scanline{
       position:absolute; left:0; right:0; top:-30%;
       height: 30%;
@@ -283,13 +349,11 @@
     }
     @keyframes scan{
       from{ transform:translateY(0); }
-      to{ transform:translateY(520px); }
+      to{ transform:translateY(560px); }
     }
 
     /* Sections */
-    section{
-      padding: 32px 0;
-    }
+    section{ padding: 32px 0; }
     .sectionTitle{
       display:flex; align-items:baseline; justify-content:space-between;
       gap:16px;
@@ -313,9 +377,7 @@
       grid-template-columns: 1fr 1fr;
       gap: 16px;
     }
-    @media (max-width: 860px){
-      .grid2{ grid-template-columns: 1fr; }
-    }
+    @media (max-width: 860px){ .grid2{ grid-template-columns: 1fr; } }
 
     .block{
       border-radius: var(--radius);
@@ -353,10 +415,7 @@
       line-height:1.6;
       font-size: 13px;
     }
-    .tagRow{
-      display:flex; gap:8px; flex-wrap:wrap;
-      margin-top: 12px;
-    }
+    .tagRow{ display:flex; gap:8px; flex-wrap:wrap; margin-top: 12px; }
     .tag{
       font-family: var(--mono);
       font-size: 11px;
@@ -368,23 +427,17 @@
     }
 
     /* Timeline */
-    .timeline{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
+    .timeline{ display:grid; grid-template-columns: 1fr; gap: 12px; }
     .step{
       display:grid;
-      grid-template-columns: 140px 1fr;
+      grid-template-columns: 160px 1fr;
       gap: 14px;
       padding: 16px;
       border-radius: var(--radius);
       border:1px solid rgba(255,255,255,0.12);
       background: rgba(255,255,255,0.03);
     }
-    @media (max-width: 720px){
-      .step{ grid-template-columns: 1fr; }
-    }
+    @media (max-width: 720px){ .step{ grid-template-columns: 1fr; } }
     .step .left{
       font-family: var(--mono);
       color: rgba(255,255,255,0.64);
@@ -394,6 +447,7 @@
       display:flex;
       align-items:flex-start;
       gap:10px;
+      line-height:1.4;
     }
     .badge{
       display:inline-flex;
@@ -420,7 +474,34 @@
       line-height:1.55;
     }
 
-    /* Repository mock */
+    /* KPI grid */
+    .kpis{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 980px){ .kpis{ grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px){ .kpis{ grid-template-columns: 1fr; } }
+    .kpi{
+      border-radius: var(--radius);
+      border:1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.18);
+      padding: 14px;
+    }
+    .kpi .num{
+      font-family: var(--mono);
+      font-size: 22px;
+      letter-spacing: -0.02em;
+      color: rgba(255,255,255,0.90);
+    }
+    .kpi .lbl{
+      margin-top: 6px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.62);
+      line-height:1.35;
+    }
+
+    /* Repo mock */
     .repo{
       display:grid;
       grid-template-columns: 1.15fr 0.85fr;
@@ -452,10 +533,8 @@
     }
     .repoCard h3{ margin:0 0 8px; font-size: 14px; color: rgba(255,255,255,0.88); }
     .repoCard p{ margin:0; color: rgba(255,255,255,0.72); line-height:1.55; font-size: 14px; }
-    .repoCard .ctaRow{
-      display:flex; gap:10px; flex-wrap:wrap;
-      margin-top: 14px;
-    }
+
+    .ctaRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 14px; }
     .btn{
       appearance:none;
       border:1px solid rgba(255,255,255,0.14);
@@ -495,9 +574,7 @@
       padding-top: 18px;
     }
     .footMono{ font-family: var(--mono); letter-spacing: 0.02em; }
-    .smallLinks{
-      display:flex; gap:10px; flex-wrap:wrap;
-    }
+    .smallLinks{ display:flex; gap:10px; flex-wrap:wrap; }
     .smallLinks a{
       color: rgba(255,255,255,0.62);
       text-decoration:none;
@@ -520,19 +597,10 @@
       transform: translateY(0);
     }
 
-    /* Progress indicator */
-    .progress{
-      position:fixed;
-      top:0;
-      left:0;
-      height: 2px;
-      width: 100%;
-      transform-origin: left;
-      transform: scaleX(0);
-      background: linear-gradient(90deg, rgba(124,224,255,0.95), rgba(183,185,255,0.95), rgba(124,255,178,0.95));
-      z-index: 80;
-      opacity: 0.8;
-    }
+    /* Language content */
+    [data-lang]{ display:none; }
+    body[data-lang="ca"] [data-lang="ca"]{ display:block; }
+    body[data-lang="en"] [data-lang="en"]{ display:block; }
 
     /* Reduce motion */
     @media (prefers-reduced-motion: reduce){
@@ -545,7 +613,8 @@
     }
   </style>
 </head>
-<body>
+
+<body data-lang="ca">
   <div class="progress" id="progress"></div>
   <div class="bggrid"></div>
   <div class="noise"></div>
@@ -556,16 +625,30 @@
         <div class="brand">
           <div class="logo" aria-hidden="true"></div>
           <div>
-            <h1>CONSTELLATION LABS</h1>
-            <div class="sub">Shared Infrastructure • Digital Culture • Catalonia</div>
+            <h1 data-lang="ca">LABORATORI CONSTEL·LACIÓ</h1>
+            <h1 data-lang="en">CONSTELLATION LABS</h1>
+            <div class="sub" data-lang="ca">Infraestructura compartida • Cultura digital • Catalunya • CLT514</div>
+            <div class="sub" data-lang="en">Shared infrastructure • Digital culture • Catalonia • CLT514</div>
           </div>
         </div>
+
         <nav class="nav" aria-label="Page navigation">
-          <a class="chip" href="#mission">Mission</a>
-          <a class="chip" href="#activities">Program</a>
-          <a class="chip" href="#repository">Open-Source</a>
-          <a class="chip" href="#impact">Impact</a>
-          <a class="chip primary" href="#connect">Connect</a>
+          <a class="chip" href="#missio" data-lang="ca">Missió</a>
+          <a class="chip" href="#programa" data-lang="ca">Programa 2026</a>
+          <a class="chip" href="#governanca" data-lang="ca">Governança</a>
+          <a class="chip" href="#repositori" data-lang="ca">Repositori</a>
+          <a class="chip primary" href="#connecta" data-lang="ca">Connecta</a>
+
+          <a class="chip" href="#missio" data-lang="en">Mission</a>
+          <a class="chip" href="#programa" data-lang="en">Program 2026</a>
+          <a class="chip" href="#governanca" data-lang="en">Governance</a>
+          <a class="chip" href="#repositori" data-lang="en">Repository</a>
+          <a class="chip primary" href="#connecta" data-lang="en">Connect</a>
+
+          <div class="langToggle" role="group" aria-label="Language switch">
+            <button class="langBtn active" id="btnCA" type="button">CA</button>
+            <button class="langBtn" id="btnEN" type="button">EN</button>
+          </div>
         </nav>
       </div>
     </div>
@@ -577,17 +660,56 @@
       <div class="wrap">
         <div class="heroGrid">
           <div class="card pad reveal">
-            <div class="kicker"><span class="dot" aria-hidden="true"></span>Active infrastructure / non-commercial / sector articulation</div>
-            <h2 class="title">A shared lab to strengthen Catalonia’s digital culture sector.</h2>
-            <p class="lead">
-              Constellation Labs is a permanent platform for advanced research, learning, and collaboration
-              at the intersection of art, science, and emerging technologies — based at Espronceda and developed by IMMENSIVA × NUBIA.
+            <div class="kicker">
+              <span class="dot" aria-hidden="true"></span>
+              <span data-lang="ca">infraestructura estable / sense finalitat comercial / articulació sectorial</span>
+              <span data-lang="en">stable infrastructure / non-commercial / sector articulation</span>
+            </div>
+
+            <h2 class="title" data-lang="ca">Una infraestructura compartida per reforçar la cultura digital a Catalunya.</h2>
+            <h2 class="title" data-lang="en">A shared infrastructure to strengthen Catalonia’s digital culture sector.</h2>
+
+            <p class="lead" data-lang="ca">
+              Laboratori Constel·lació (Constellation Labs) és una plataforma permanent de recerca aplicada,
+              aprenentatge i col·laboració a la intersecció entre art, ciència i tecnologies emergents — impulsada per
+              l’Asociación encontrArte i allotjada a Espronceda (Barcelona).
+            </p>
+            <p class="lead" data-lang="en">
+              Constellation Labs is a permanent platform for applied research, learning, and collaboration at the intersection
+              of art, science, and emerging technologies — led by Asociación encontrArte and hosted at Espronceda (Barcelona).
             </p>
 
             <div class="metaRow" role="list">
-              <div class="pill" role="listitem"><b>Focus</b> XR • AI • Robotics • Creative Coding</div>
-              <div class="pill" role="listitem"><b>Format</b> Open Labs • Hack-Labs • Knowledge Exchange</div>
-              <div class="pill" role="listitem"><b>Core output</b> Open-source repository</div>
+              <div class="pill" role="listitem">
+                <b data-lang="ca">Focus</b><b data-lang="en">Focus</b>
+                XR • IA • Robòtica • Creative Coding
+              </div>
+              <div class="pill" role="listitem">
+                <b data-lang="ca">Model</b><b data-lang="en">Model</b>
+                Open Labs • Hack-Labs • Transferència
+              </div>
+              <div class="pill" role="listitem">
+                <b data-lang="ca">Output clau</b><b data-lang="en">Core output</b>
+                Repositori open-source
+              </div>
+            </div>
+
+            <div class="flagRow">
+              <div class="flag good">
+                <div class="icon" aria-hidden="true"></div>
+                <div data-lang="ca"><b>Destinatàries:</b> professionals de la cultura digital a Catalunya (no públic general).</div>
+                <div data-lang="en"><b>Audience:</b> digital culture professionals in Catalonia (not the general public).</div>
+              </div>
+              <div class="flag warn">
+                <div class="icon" aria-hidden="true"></div>
+                <div data-lang="ca"><b>No solapament:</b> cap activitat s’imputa a CLT099; qualsevol acte públic, si n’hi ha, tindrà pressupost separat.</div>
+                <div data-lang="en"><b>No overlap:</b> no activities are charged to CLT099; any public event (if any) has a separate budget.</div>
+              </div>
+              <div class="flag good">
+                <div class="icon" aria-hidden="true"></div>
+                <div data-lang="ca"><b>Pressupost:</b> 70.000 € (65% fons propis) + sol·licitud OSIC 24.500 € (35%).</div>
+                <div data-lang="en"><b>Budget:</b> €70,000 (65% secured) + OSIC request €24,500 (35%).</div>
+              </div>
             </div>
           </div>
 
@@ -600,147 +722,254 @@
               <div style="width:54px;"></div>
             </div>
             <div class="console">
-<pre id="consoleText"></pre><span class="cursor" aria-hidden="true"></span>
+              <pre id="consoleText"></pre><span class="cursor" aria-hidden="true"></span>
               <div class="scanline" aria-hidden="true"></div>
             </div>
           </div>
+
         </div>
       </div>
     </section>
 
     <!-- MISSION -->
-    <section id="mission">
+    <section id="missio">
       <div class="wrap">
         <div class="sectionTitle">
-          <h2>Mission</h2>
-          <div class="hint">Why it exists / what it solves</div>
+          <h2 data-lang="ca">Missió</h2>
+          <h2 data-lang="en">Mission</h2>
+          <div class="hint" data-lang="ca">Què resol / per què ara</div>
+          <div class="hint" data-lang="en">What it solves / why now</div>
         </div>
 
         <div class="grid2">
           <div class="block reveal">
-            <h3>Structural need</h3>
-            <p>
-              The rapid acceleration of AI and immersive technologies is reshaping cultural production,
-              but the sector lacks continuous shared infrastructures for collective experimentation, reflection, and coordination.
+            <h3 data-lang="ca">Necessitat estructural</h3>
+            <h3 data-lang="en">Structural need</h3>
+            <p data-lang="ca">
+              L’acceleració d’IA i XR està transformant la producció cultural, però el sector necessita espais continuats,
+              facilitats i compartits per experimentar, estandarditzar bones pràctiques i coordinar-se.
+            </p>
+            <p data-lang="en">
+              AI and XR are rapidly reshaping cultural production, yet the sector needs continuous, facilitated shared spaces
+              to experiment, establish good practices, and coordinate.
             </p>
             <div class="tagRow">
-              <span class="tag">sector fragmentation</span>
-              <span class="tag">access barriers</span>
-              <span class="tag">missing connective tissue</span>
+              <span class="tag" data-lang="ca">fragmentació</span>
+              <span class="tag" data-lang="ca">barreres d’accés</span>
+              <span class="tag" data-lang="ca">transferència</span>
+
+              <span class="tag" data-lang="en">fragmentation</span>
+              <span class="tag" data-lang="en">access barriers</span>
+              <span class="tag" data-lang="en">knowledge transfer</span>
             </div>
           </div>
 
           <div class="block reveal">
-            <h3>Operating model</h3>
-            <p>
-              Not a coworking space. Not isolated events. Constellation Labs is a permanent articulation platform
-              that prioritizes collective learning, critical engagement, and durable networks over individual production outcomes.
+            <h3 data-lang="ca">Model operatiu</h3>
+            <h3 data-lang="en">Operating model</h3>
+            <p data-lang="ca">
+              No és un coworking ni una suma d’esdeveniments: és una plataforma permanent amb laboratoris oberts facilitats,
+              hack-labs col·laboratius, sessions de recerca i formats de matchmaking P2P/B2B, amb protocols d’ètica d’IA,
+              seguretat de dades i accessibilitat XR.
+            </p>
+            <p data-lang="en">
+              Not coworking, not one-off events: a permanent platform with facilitated open labs, collaborative hack-labs,
+              research/transfer sessions, and P2P/B2B matchmaking — supported by AI ethics, data security, and XR accessibility protocols.
             </p>
             <div class="tagRow">
-              <span class="tag">continuous lab</span>
-              <span class="tag">P2P + B2B</span>
-              <span class="tag">knowledge transfer</span>
+              <span class="tag" data-lang="ca">facilitació</span>
+              <span class="tag" data-lang="ca">protocols</span>
+              <span class="tag" data-lang="ca">seguiment</span>
+
+              <span class="tag" data-lang="en">facilitation</span>
+              <span class="tag" data-lang="en">protocols</span>
+              <span class="tag" data-lang="en">follow-up</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- OBJECTIVES -->
-    <section id="objectives">
+    <!-- PROGRAM 2026 -->
+    <section id="programa">
       <div class="wrap">
         <div class="sectionTitle">
-          <h2>Objectives</h2>
-          <div class="hint">Permanent infrastructure / collaboration / access / repository</div>
-        </div>
-
-        <div class="grid2">
-          <div class="block reveal">
-            <h3>Sector articulation</h3>
-            <p>Connect artists, technologists, researchers, cultural entities, academic institutions, and industry stakeholders through a stable shared infrastructure.</p>
-            <ul class="list">
-              <li>Continuous convening point</li>
-              <li>Network formation and coordination</li>
-              <li>Regional + international connectivity</li>
-            </ul>
-          </div>
-          <div class="block reveal">
-            <h3>Collective access + professionalization</h3>
-            <p>Expand access to advanced tools (XR, AI, robotics, creative coding) through facilitated learning models and collaborative research environments.</p>
-            <ul class="list">
-              <li>Reduced participation barriers</li>
-              <li>Structured methodologies for learning</li>
-              <li>Mentorship and pilot development</li>
-            </ul>
-          </div>
-          <div class="block reveal">
-            <h3>Knowledge transfer</h3>
-            <p>Consolidate methodologies and publish sector-relevant documentation that supports sustainability and shared capacity.</p>
-            <ul class="list">
-              <li>Open documentation and publications</li>
-              <li>Reusable frameworks and workflows</li>
-              <li>Ethically informed cultural tech</li>
-            </ul>
-          </div>
-          <div class="block reveal">
-            <h3>Open-source ecosystem strengthening</h3>
-            <p>Create and maintain an open-source repository of projects, information, and code to strengthen the Catalan digital culture ecosystem.</p>
-            <ul class="list">
-              <li>Project templates and reference implementations</li>
-              <li>Technical workflows and starter kits</li>
-              <li>Long-term accessibility beyond the program</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ACTIVITIES -->
-    <section id="activities">
-      <div class="wrap">
-        <div class="sectionTitle">
-          <h2>Program</h2>
-          <div class="hint">A functional system, not a one-off event</div>
+          <h2 data-lang="ca">Programa 2026</h2>
+          <h2 data-lang="en">Program 2026</h2>
+          <div class="hint" data-lang="ca">Quantificat (formats, freqüències, territori)</div>
+          <div class="hint" data-lang="en">Quantified (formats, frequency, territory)</div>
         </div>
 
         <div class="timeline">
           <div class="step reveal">
-            <div class="left"><span class="badge">01</span>Open Constellation Labs</div>
+            <div class="left"><span class="badge">01</span><span data-lang="ca">Open Labs</span><span data-lang="en">Open Labs</span></div>
             <div class="right">
-              <h4>Facilitated open-access lab sessions</h4>
-              <p>Guided access to shared tools and collaborative workflows for experimentation and peer learning at Espronceda (Barcelona). Continuous operation.</p>
+              <h4 data-lang="ca">40 sessions a Barcelona + 2 accions itinerants</h4>
+              <h4 data-lang="en">40 sessions in Barcelona + 2 itinerant actions</h4>
+              <p data-lang="ca">
+                Laboratoris oberts facilitats (aprox. 1/setmana durant 10 mesos) a Espronceda + 2 Open Lab itinerants d’1 dia
+                coorganitzats amb socis territorials (Neàpolis i El Jardí Digital / Casa Híbrida segons el format).
+              </p>
+              <p data-lang="en">
+                Facilitated open labs (about 1/week for 10 months) at Espronceda + two 1-day itinerant Open Labs
+                co-organized with territorial partners (Neàpolis and El Jardí Digital / Casa Híbrida depending on format).
+              </p>
             </div>
           </div>
 
           <div class="step reveal">
-            <div class="left"><span class="badge">02</span>Hack-Lab Sessions</div>
+            <div class="left"><span class="badge">02</span><span data-lang="ca">Hack-Labs</span><span data-lang="en">Hack-Labs</span></div>
             <div class="right">
-              <h4>Time-bound collaborative research labs</h4>
-              <p>Multidisciplinary labs focused on developing tools, workflows, and conceptual approaches at the intersection of art, science, and technology.</p>
+              <h4 data-lang="ca">4 edicions / any (3 dies) — març, juny, setembre, novembre</h4>
+              <h4 data-lang="en">4 editions/year (3 days) — Mar, Jun, Sep, Nov</h4>
+              <p data-lang="ca">
+                Labs intensius de recerca aplicada amb mentoratge (perfil tècnic + conceptual), sprints i entregables reutilitzables
+                (documentació + recursos publicables al repositori obert).
+              </p>
+              <p data-lang="en">
+                Intensive applied research labs with mentoring (technical + conceptual), sprints, and reusable deliverables
+                (documentation + resources published to the open repository).
+              </p>
             </div>
           </div>
 
           <div class="step reveal">
-            <div class="left"><span class="badge">03</span>Knowledge Exchange</div>
+            <div class="left"><span class="badge">03</span><span data-lang="ca">Transferència</span><span data-lang="en">Transfer</span></div>
             <div class="right">
-              <h4>Talks, working groups, semi-public sessions</h4>
-              <p>Critical and creative engagement with emerging technologies in cultural contexts, designed for knowledge transfer and sector coherence.</p>
+              <h4 data-lang="ca">8 sessions / any (format híbrid quan convingui)</h4>
+              <h4 data-lang="en">8 sessions/year (hybrid when appropriate)</h4>
+              <p data-lang="ca">
+                Sessions sectorials de recerca i intercanvi: xerrades breus + debat aplicat, grups de treball temàtics (IA, XR, robòtica,
+                drets, sostenibilitat) i sessions d’estàndards/protocols (ètica d’IA, accessibilitat XR, documentació i reutilització).
+              </p>
+              <p data-lang="en">
+                Sector sessions for research and knowledge exchange: short talks + applied discussion, thematic working groups (AI, XR, robotics,
+                rights, sustainability) and standards/protocol sessions (AI ethics, XR accessibility, documentation and reuse).
+              </p>
             </div>
           </div>
 
           <div class="step reveal">
-            <div class="left"><span class="badge">04</span>Sector Connectivity</div>
+            <div class="left"><span class="badge">04</span><span data-lang="ca">Connectivitat</span><span data-lang="en">Connectivity</span></div>
             <div class="right">
-              <h4>P2P + B2B collaboration development</h4>
-              <p>Matchmaking sessions, informal networking, and exploratory partnerships connecting cultural entities, academic partners, and industry stakeholders. Hybrid format.</p>
+              <h4 data-lang="ca">4 sessions / any (2 BCN/híbrid + 2 territori)</h4>
+              <h4 data-lang="en">4 sessions/year (2 BCN/hybrid + 2 territory)</h4>
+              <p data-lang="ca">
+                Networking i matchmaking estructurat P2P/B2B: fitxes d’interessos, rondes facilitades 1:1 i taules temàtiques, i seguiment
+                (debrief) per convertir contactes en col·laboracions (pilots, aliances, residències).
+              </p>
+              <p data-lang="en">
+                Structured P2P/B2B networking & matchmaking: standardized interest profiles, facilitated 1:1 rounds and thematic tables,
+                plus follow-up (debrief) to turn contacts into real collaborations (pilots, alliances, residencies).
+              </p>
             </div>
           </div>
 
           <div class="step reveal">
-            <div class="left"><span class="badge">05</span>Documentation Outputs</div>
+            <div class="left"><span class="badge">05</span><span data-lang="ca">Documentació</span><span data-lang="en">Documentation</span></div>
             <div class="right">
-              <h4>Open documentation + sector publications</h4>
-              <p>Production of shared documentation, methodological insights, and sector-relevant outputs disseminated through digital channels.</p>
+              <h4 data-lang="ca">Repositori open-source + publicacions sectorials</h4>
+              <h4 data-lang="en">Open-source repository + sector publications</h4>
+              <p data-lang="ca">
+                Repositori digital obert (codi obert) amb projectes, metodologies, fluxos de treball i codi; i outputs d’articulació:
+                mapa anual de necessitats, directori viu i protocols (ètica d’IA i accessibilitat XR).
+              </p>
+              <p data-lang="en">
+                Open digital repository (open-source) with projects, methodologies, workflows and code; plus articulation outputs:
+                annual needs map, living directory, and protocols (AI ethics and XR accessibility).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:18px" class="block reveal">
+          <h3 data-lang="ca">Indicadors operatius (KPIs) 2026</h3>
+          <h3 data-lang="en">Operational indicators (KPIs) 2026</h3>
+
+          <div class="kpis" style="margin-top:12px;">
+            <div class="kpi">
+              <div class="num">200</div>
+              <div class="lbl" data-lang="ca">professionals atesos (únics)</div>
+              <div class="lbl" data-lang="en">unique professionals served</div>
+            </div>
+            <div class="kpi">
+              <div class="num">80</div>
+              <div class="lbl" data-lang="ca">participació recurrent</div>
+              <div class="lbl" data-lang="en">recurring participation</div>
+            </div>
+            <div class="kpi">
+              <div class="num">140h</div>
+              <div class="lbl" data-lang="ca">mentoria i acompanyament</div>
+              <div class="lbl" data-lang="en">mentoring & support</div>
+            </div>
+            <div class="kpi">
+              <div class="num">12</div>
+              <div class="lbl" data-lang="ca">col·laboracions / pilots activats</div>
+              <div class="lbl" data-lang="en">collaborations / pilots activated</div>
+            </div>
+          </div>
+
+          <div class="tagRow" style="margin-top:12px;">
+            <span class="tag" data-lang="ca">XR</span><span class="tag" data-lang="ca">IA</span><span class="tag" data-lang="ca">robòtica</span><span class="tag" data-lang="ca">creative coding</span>
+            <span class="tag" data-lang="en">XR</span><span class="tag" data-lang="en">AI</span><span class="tag" data-lang="en">robotics</span><span class="tag" data-lang="en">creative coding</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GOVERNANCE -->
+    <section id="governanca">
+      <div class="wrap">
+        <div class="sectionTitle">
+          <h2 data-lang="ca">Governança i articulació</h2>
+          <h2 data-lang="en">Governance & articulation</h2>
+          <div class="hint" data-lang="ca">Model lleuger amb acta i debrief trimestral</div>
+          <div class="hint" data-lang="en">Light model with minutes + quarterly debrief</div>
+        </div>
+
+        <div class="grid2">
+          <div class="block reveal">
+            <h3 data-lang="ca">Cercle Assessor del Sector</h3>
+            <h3 data-lang="en">Sector Advisory Circle</h3>
+            <p data-lang="ca">
+              10 perfils de l’ecosistema de cultura digital a Catalunya (professionals, entitats, perfils tècnics/creatius i agents d’articulació).
+              Reunions trimestrals amb acta i “debrief” per definir prioritats, validar necessitats i orientar outputs (mapa, directori, protocols).
+            </p>
+            <p data-lang="en">
+              10 profiles from the Catalan digital culture ecosystem (professionals, entities, technical/creative profiles, articulation agents).
+              Quarterly meetings with minutes and debriefs to set priorities, validate needs, and steer outputs (map, directory, protocols).
+            </p>
+            <ul class="list">
+              <li data-lang="ca">4 reunions / any (híbrid BCN + online)</li>
+              <li data-lang="en">4 meetings/year (hybrid BCN + online)</li>
+              <li data-lang="ca">Orientació d’outputs i retorn al sector</li>
+              <li data-lang="en">Steers outputs + sector feedback loop</li>
+            </ul>
+          </div>
+
+          <div class="block reveal">
+            <h3 data-lang="ca">Outputs d’articulació</h3>
+            <h3 data-lang="en">Articulation outputs</h3>
+
+            <ul class="list">
+              <li data-lang="ca"><b>Mapa anual de necessitats</b> (enquesta + síntesi + sessió de retorn)</li>
+              <li data-lang="en"><b>Annual needs map</b> (survey + synthesis + feedback session)</li>
+
+              <li data-lang="ca"><b>Directori viu</b> (mínim viable) per facilitar connexions</li>
+              <li data-lang="en"><b>Living directory</b> (minimum viable) to facilitate connections</li>
+
+              <li data-lang="ca"><b>Protocols / posicionament</b> (ètica d’IA + accessibilitat XR)</li>
+              <li data-lang="en"><b>Protocols / position paper</b> (AI ethics + XR accessibility)</li>
+            </ul>
+
+            <div class="tagRow">
+              <span class="tag" data-lang="ca">cohesió</span>
+              <span class="tag" data-lang="ca">estàndards</span>
+              <span class="tag" data-lang="ca">retorn</span>
+
+              <span class="tag" data-lang="en">cohesion</span>
+              <span class="tag" data-lang="en">standards</span>
+              <span class="tag" data-lang="en">feedback</span>
             </div>
           </div>
         </div>
@@ -748,97 +977,130 @@
     </section>
 
     <!-- REPOSITORY -->
-    <section id="repository">
+    <section id="repositori">
       <div class="wrap">
         <div class="sectionTitle">
-          <h2>Open-source Repository</h2>
-          <div class="hint">Reusable knowledge, permanently accessible</div>
+          <h2 data-lang="ca">Repositori open-source</h2>
+          <h2 data-lang="en">Open-source repository</h2>
+          <div class="hint" data-lang="ca">Infraestructura de coneixement per al país</div>
+          <div class="hint" data-lang="en">Knowledge infrastructure for the ecosystem</div>
         </div>
 
         <div class="repo">
           <div class="tree reveal" aria-label="Repository structure mock">
             <div class="line"><span class="hl">constellation-labs/</span></div>
             <div class="line dim">├─ docs/</div>
-            <div class="line dim">│  ├─ methodologies/</div>
-            <div class="line dim">│  ├─ lab-playbooks/</div>
-            <div class="line dim">│  └─ ethical-guidelines/</div>
-            <div class="line dim">├─ projects/</div>
+            <div class="line dim">│  ├─ metodologies/</div>
+            <div class="line dim">│  ├─ playbooks-open-labs/</div>
+            <div class="line dim">│  ├─ playbooks-hacklabs/</div>
+            <div class="line dim">│  └─ protocols/ (ètica_IA, accessibilitat_XR, dades)</div>
+            <div class="line dim">├─ projects/ (Catalunya-first)</div>
             <div class="line dim">│  ├─ xr-starter/</div>
             <div class="line dim">│  ├─ ai-creative-coding/</div>
             <div class="line dim">│  ├─ robotics-prototypes/</div>
             <div class="line dim">│  └─ hybrid-installation-blueprints/</div>
-            <div class="line dim">├─ workflows/</div>
-            <div class="line dim">│  ├─ toolchains/</div>
-            <div class="line dim">│  ├─ pipelines/</div>
-            <div class="line dim">│  └─ reproducible-demos/</div>
-            <div class="line dim">├─ learning/</div>
-            <div class="line dim">│  ├─ workshops/</div>
-            <div class="line dim">│  └─ reading-lists/</div>
-            <div class="line dim">└─ community/</div>
-            <div class="line dim">   ├─ partners/</div>
-            <div class="line dim">   └─ contribute.md</div>
-            <div class="line" style="margin-top:10px;"><span class="bl">status:</span> public knowledge base • <span class="hl">Catalonia-first</span> • reusable across the sector</div>
+            <div class="line dim">├─ workflows/ (pipelines reproductibles)</div>
+            <div class="line dim">├─ learning/ (onboarding + recursos)</div>
+            <div class="line dim">└─ community/ (partners + contribute)</div>
+            <div class="line" style="margin-top:10px;"><span class="bl">status:</span> obert • reutilitzable • orientat al sector català</div>
           </div>
 
           <div class="repoCard reveal">
-            <h3>Why open-source matters here</h3>
-            <p>
-              The repository ensures that tools, workflows, and research insights developed through the program remain
-              transferable and accessible — strengthening Catalonia’s digital culture ecosystem long after each lab session ends.
+            <h3 data-lang="ca">Entregables 2026 (publicables)</h3>
+            <h3 data-lang="en">2026 deliverables (publishable)</h3>
+            <p data-lang="ca">
+              El repositori garanteix transferència real: el coneixement no queda tancat al laboratori físic.
+              Publicarem recursos reutilitzables i documentació orientada a necessitats del sector a Catalunya.
             </p>
+            <p data-lang="en">
+              The repository ensures real transfer: knowledge doesn’t stay locked inside the physical lab.
+              We publish reusable resources and documentation driven by the needs of Catalonia’s sector.
+            </p>
+
+            <ul class="list" style="margin-top:12px;">
+              <li data-lang="ca">10 briefs metodològics públics</li>
+              <li data-lang="en">10 public methodological briefs</li>
+
+              <li data-lang="ca">12 casos d’estudi (professionals/entitats de Catalunya)</li>
+              <li data-lang="en">12 case studies (Catalan professionals/entities)</li>
+
+              <li data-lang="ca">25 recursos open-source (toolkits, plantilles, protocols, repositoris)</li>
+              <li data-lang="en">25 open-source resources (toolkits, templates, protocols, repos)</li>
+
+              <li data-lang="ca">Directori viu (mínim viable): 150 perfils</li>
+              <li data-lang="en">Living directory (MVP): 150 profiles</li>
+
+              <li data-lang="ca">Mapa anual de necessitats + sessió de retorn</li>
+              <li data-lang="en">Annual needs map + feedback session</li>
+            </ul>
+
             <div class="ctaRow">
-              <a class="btn primary" href="#connect">Request access / Partner</a>
-              <a class="btn" href="#impact">View impact logic</a>
-            </div>
-            <div class="tagRow">
-              <span class="tag">documentation</span>
-              <span class="tag">code</span>
-              <span class="tag">templates</span>
-              <span class="tag">methodologies</span>
+              <a class="btn primary" href="#connecta" data-lang="ca">Proposar col·laboració</a>
+              <a class="btn primary" href="#connecta" data-lang="en">Propose a collaboration</a>
+              <button class="btn" id="copySummary" type="button" data-lang="ca">Copiar resum</button>
+              <button class="btn" id="copySummaryEN" type="button" data-lang="en">Copy summary</button>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- IMPACT -->
-    <section id="impact">
+    <!-- COMPLIANCE + IMPACT -->
+    <section id="impacte">
       <div class="wrap">
         <div class="sectionTitle">
-          <h2>Impact</h2>
-          <div class="hint">Professionalization / cohesion / cross-sector spillover</div>
+          <h2 data-lang="ca">Impacte i compliment</h2>
+          <h2 data-lang="en">Impact & compliance</h2>
+          <div class="hint" data-lang="ca">Orientat al sector (no autopromocional)</div>
+          <div class="hint" data-lang="en">Sector-facing (not self-promotional)</div>
         </div>
 
         <div class="grid2">
           <div class="block reveal">
-            <h3>Professionalization + sustainability</h3>
-            <p>
-              Shared access to advanced technologies and structured research environments improves professional capacity,
-              reduces access barriers, and supports sustainable collaboration models.
+            <h3 data-lang="ca">Condicions laborals i contractació justa</h3>
+            <h3 data-lang="en">Fair work conditions</h3>
+            <p data-lang="ca">
+              Contractació de serveis (facilitació, mentories, producció) amb acords clars, tarifes definides i compliment fiscal i laboral.
+            </p>
+            <p data-lang="en">
+              Professional services (facilitation, mentoring, production) contracted with clear agreements, defined rates, and full legal/tax compliance.
             </p>
           </div>
 
           <div class="block reveal">
-            <h3>Sector cohesion + networks</h3>
-            <p>
-              A stable convergence point connecting dispersed actors and linking Catalonia to national and international
-              cultural, academic, and technological networks.
+            <h3 data-lang="ca">Comunicació i visibilitat CLT514</h3>
+            <h3 data-lang="en">CLT514 visibility</h3>
+            <p data-lang="ca">
+              Difusió sectorial centrada en metodologies i eines reutilitzables, visibilitzant professionals/entitats del país, amb documentació oberta i co-publicació amb socis.
+              (Inclou comunicació prèvia d’1 setmana per campanyes/actes promocionals quan correspongui.)
+            </p>
+            <p data-lang="en">
+              Sector-driven dissemination focused on reusable methods/tools, highlighting Catalan professionals/entities, with open documentation and partner co-publication.
+              (Includes 1-week prior notice for campaigns/promotional acts when applicable.)
             </p>
           </div>
 
           <div class="block reveal">
-            <h3>Cross-sector spillover</h3>
-            <p>
-              Generates impact across higher education, scientific research, creative industries, innovation ecosystems,
-              and social impact initiatives — rooted in culturally grounded technology development.
+            <h3 data-lang="ca">Impacte transversal (interfaces)</h3>
+            <h3 data-lang="en">Cross-sector interfaces</h3>
+            <p data-lang="ca">
+              Educació superior (1 sessió), recerca/innovació (1 col·laboració + 2 seguiments), i “Digital Craft” (1 col·laboració amb 1 prototip/metodologia documentada).
+            </p>
+            <p data-lang="en">
+              Higher education (1 session), research/innovation (1 collaboration + 2 follow-ups), and “Digital Craft” (1 collaboration with 1 documented prototype/methodology).
             </p>
           </div>
 
           <div class="block reveal">
-            <h3>Visibility + dissemination</h3>
-            <p>
-              Communication emphasizes sector-level impact and shared knowledge through open documentation,
-              publications, and coordinated dissemination via Espronceda / IMMENSIVA / NUBIA channels.
+            <h3 data-lang="ca">Descentralització (territori)</h3>
+            <h3 data-lang="en">Decentralization (territory)</h3>
+            <p data-lang="ca">
+              Accions satèl·lit i coorganització amb socis territorials per reforçar connectivitat i distribució més enllà de Barcelona
+              (Neàpolis, El Jardí Digital i Casa Híbrida).
+            </p>
+            <p data-lang="en">
+              Satellite actions and co-organization with territorial partners to strengthen connectivity beyond Barcelona
+              (Neàpolis, El Jardí Digital, Casa Híbrida).
             </p>
           </div>
         </div>
@@ -846,40 +1108,56 @@
     </section>
 
     <!-- CONNECT -->
-    <section id="connect">
+    <section id="connecta">
       <div class="wrap">
         <div class="sectionTitle">
-          <h2>Connect</h2>
-          <div class="hint">A working infrastructure you can plug into</div>
+          <h2 data-lang="ca">Connecta</h2>
+          <h2 data-lang="en">Connect</h2>
+          <div class="hint" data-lang="ca">Substitueix placeholders amb dades públiques</div>
+          <div class="hint" data-lang="en">Replace placeholders with public details</div>
         </div>
 
         <div class="grid2">
           <div class="block reveal">
-            <h3>Based at Espronceda (Barcelona)</h3>
-            <p>
-              Constellation Labs is developed by IMMENSIVA × NUBIA as a stable, non-commercial infrastructure
-              for Catalonia’s digital culture sector.
+            <h3 data-lang="ca">Seu i marc del projecte</h3>
+            <h3 data-lang="en">Project base</h3>
+            <p data-lang="ca">
+              Projecte impulsat per l’Asociación encontrArte, allotjat a Espronceda (Barcelona), articulant-se amb els programes IMMENSIVA i NUBIA/NubiaLabs.
+            </p>
+            <p data-lang="en">
+              Led by Asociación encontrArte, hosted at Espronceda (Barcelona), articulated with IMMENSIVA and NUBIA/NubiaLabs programs.
             </p>
             <div class="tagRow">
-              <span class="tag">open labs</span>
-              <span class="tag">hybrid sessions</span>
-              <span class="tag">sector articulation</span>
+              <span class="tag" data-lang="ca">professional-only</span>
+              <span class="tag" data-lang="ca">infraestructura compartida</span>
+              <span class="tag" data-lang="ca">repositori obert</span>
+
+              <span class="tag" data-lang="en">professionals-only</span>
+              <span class="tag" data-lang="en">shared infrastructure</span>
+              <span class="tag" data-lang="en">open repository</span>
             </div>
           </div>
 
           <div class="block reveal">
-            <h3>Quick contact block (replace)</h3>
-            <p style="margin-bottom:12px;">
-              Swap these placeholders with your public-facing details.
-            </p>
+            <h3 data-lang="ca">Contacte (placeholders)</h3>
+            <h3 data-lang="en">Contact (placeholders)</h3>
+
             <ul class="list">
-              <li><span class="dim">Email:</span> contact@yourdomain.org</li>
-              <li><span class="dim">Location:</span> Espronceda – Institute of Art & Culture, Barcelona</li>
-              <li><span class="dim">Channels:</span> Espronceda / IMMENSIVA / NUBIA</li>
+              <li data-lang="ca"><span style="opacity:.65">Email:</span> contact@yourdomain.org</li>
+              <li data-lang="en"><span style="opacity:.65">Email:</span> contact@yourdomain.org</li>
+
+              <li data-lang="ca"><span style="opacity:.65">Ubicació:</span> Espronceda – Institute of Art & Culture (Barcelona)</li>
+              <li data-lang="en"><span style="opacity:.65">Location:</span> Espronceda – Institute of Art & Culture (Barcelona)</li>
+
+              <li data-lang="ca"><span style="opacity:.65">Repositori:</span> github.com/your-org/constellation-labs (pendent)</li>
+              <li data-lang="en"><span style="opacity:.65">Repository:</span> github.com/your-org/constellation-labs (pending)</li>
             </ul>
-            <div class="ctaRow" style="margin-top:14px;">
-              <button class="btn primary" id="copySummary">Copy project summary</button>
-              <a class="btn" href="#mission">Back to top</a>
+
+            <div class="ctaRow">
+              <a class="btn primary" href="#repositori" data-lang="ca">Veure repositori</a>
+              <a class="btn primary" href="#repositori" data-lang="en">View repository</a>
+              <a class="btn" href="#missio" data-lang="ca">Tornar a dalt</a>
+              <a class="btn" href="#missio" data-lang="en">Back to top</a>
             </div>
           </div>
         </div>
@@ -889,26 +1167,36 @@
     <footer>
       <div class="wrap">
         <div class="footerRow">
-          <div class="footMono">CLT514 • Constellation Labs • Shared Infrastructure for Digital Culture</div>
+          <div class="footMono" data-lang="ca">CLT514 • Laboratori Constel·lació • Infraestructura compartida per a cultura digital</div>
+          <div class="footMono" data-lang="en">CLT514 • Constellation Labs • Shared infrastructure for digital culture</div>
+
           <div class="smallLinks">
-            <a href="#objectives">Objectives</a>
-            <a href="#activities">Program</a>
-            <a href="#repository">Open-source</a>
-            <a href="#impact">Impact</a>
+            <a href="#programa" data-lang="ca">Programa</a>
+            <a href="#governanca" data-lang="ca">Governança</a>
+            <a href="#repositori" data-lang="ca">Repositori</a>
+            <a href="#connecta" data-lang="ca">Connecta</a>
+
+            <a href="#programa" data-lang="en">Program</a>
+            <a href="#governanca" data-lang="en">Governance</a>
+            <a href="#repositori" data-lang="en">Repository</a>
+            <a href="#connecta" data-lang="en">Connect</a>
           </div>
         </div>
-        <div style="margin-top:10px;" class="footMono">
-          Content derived from the CLT514 final proposal (project objectives, description, activities, and dissemination plan).
+        <div style="margin-top:10px;" class="footMono" data-lang="ca">
+          Nota: Aquesta pàgina és una “splash” informativa orientada al sector (professionals). Qualsevol acte públic, si existeix, tindrà pressupost separat.
+        </div>
+        <div style="margin-top:10px;" class="footMono" data-lang="en">
+          Note: This is a sector-facing informational splash page (professionals). Any public event, if any, has a separate budget.
         </div>
       </div>
     </footer>
   </main>
 
   <script>
-    // Smooth scroll (native for modern browsers, fallback not required)
+    // Smooth scroll
     document.documentElement.style.scrollBehavior = "smooth";
 
-    // Scroll progress indicator
+    // Progress indicator
     const progress = document.getElementById("progress");
     const updateProgress = () => {
       const doc = document.documentElement;
@@ -928,63 +1216,124 @@
     }, { threshold: 0.12 });
     revealEls.forEach(el => io.observe(el));
 
-    // Console boot text (feels like a functional program)
-    const lines = [
-      "boot: constellation_labs v1.0",
-      "env: espronceda / barcelona",
-      "mode: non-commercial shared infrastructure",
-      "targets: XR | AI | robotics | creative coding",
+    // Language switch with persistence
+    const btnCA = document.getElementById("btnCA");
+    const btnEN = document.getElementById("btnEN");
+    const setLang = (lang) => {
+      document.body.setAttribute("data-lang", lang);
+      document.documentElement.setAttribute("lang", lang === "ca" ? "ca" : "en");
+      localStorage.setItem("constellation_lang", lang);
+      btnCA.classList.toggle("active", lang === "ca");
+      btnEN.classList.toggle("active", lang === "en");
+    };
+    btnCA.addEventListener("click", () => setLang("ca"));
+    btnEN.addEventListener("click", () => setLang("en"));
+    const saved = localStorage.getItem("constellation_lang");
+    if (saved === "en") setLang("en"); else setLang("ca");
+
+    // Console boot text (bilingual)
+    const consoleEl = document.getElementById("consoleText");
+    const linesCA = [
+      "boot: constellation_labs v2026",
+      "scope: professionals_only (Catalunya)",
+      "base: espronceda / barcelona",
+      "stack: XR | IA | robòtica | creative coding",
       "",
-      "init: sector_articulation_space .......... [ok]",
-      "init: facilitated_open_labs .............. [ok]",
-      "init: collaborative_hack_labs ............. [ok]",
-      "init: research_knowledge_exchange ......... [ok]",
-      "init: p2p_b2b_connectivity ................ [ok]",
-      "init: open_documentation_pipeline ......... [ok]",
-      "init: open_source_repository .............. [ok]",
+      "init: open_labs_barcelona (40) ............ [ok]",
+      "init: open_labs_territori (2) ............. [ok]",
+      "init: hack_labs (4 x 3 dies) .............. [ok]",
+      "init: transfer_sessions (8) ............... [ok]",
+      "init: matchmaking (4) ..................... [ok]",
+      "init: advisory_circle (10, trimestral) .... [ok]",
       "",
+      "outputs: briefs(10) cases(12) resources(25) directory(150) map(1) protocols(2)",
+      "kpis: professionals(200) recurrent(80) mentoring(140h) pilots(12)",
+      "",
+      "compliance: no_CLT099_overlap ............. [ok]",
       "status: online",
-      "hint: scroll to inspect modules",
+      "hint: scroll to inspect modules"
+    ];
+    const linesEN = [
+      "boot: constellation_labs v2026",
+      "scope: professionals_only (Catalonia)",
+      "base: espronceda / barcelona",
+      "stack: XR | AI | robotics | creative coding",
+      "",
+      "init: open_labs_barcelona (40) ............ [ok]",
+      "init: territory_open_labs (2) ............. [ok]",
+      "init: hack_labs (4 x 3 days) .............. [ok]",
+      "init: transfer_sessions (8) ............... [ok]",
+      "init: matchmaking (4) ..................... [ok]",
+      "init: advisory_circle (10, quarterly) ..... [ok]",
+      "",
+      "outputs: briefs(10) cases(12) resources(25) directory(150) map(1) protocols(2)",
+      "kpis: professionals(200) recurrent(80) mentoring(140h) pilots(12)",
+      "",
+      "compliance: no_CLT099_overlap ............. [ok]",
+      "status: online",
+      "hint: scroll to inspect modules"
     ];
 
-    const consoleEl = document.getElementById("consoleText");
     let idx = 0;
+    let typing = null;
 
-    function typeNext() {
+    function typeLines(lines) {
       if (!consoleEl) return;
-      if (idx >= lines.length) return;
-      const line = lines[idx];
-      // type line char-by-char
-      let c = 0;
-      const speed = 14 + Math.random()*10;
+      consoleEl.textContent = "";
+      idx = 0;
+      if (typing) { clearTimeout(typing); typing = null; }
 
-      const interval = setInterval(() => {
-        consoleEl.textContent += line.charAt(c);
-        c++;
-        if (c >= line.length) {
-          clearInterval(interval);
-          consoleEl.textContent += "\n";
-          idx++;
-          setTimeout(typeNext, 140 + Math.random()*160);
-        }
-      }, speed);
-    }
-    typeNext();
-
-    // Copy summary button
-    const summary = `Constellation Labs is a community-driven, non-commercial infrastructure for advanced research, learning, and collaboration in digital culture, based at Espronceda – Institute of Art & Culture and developed by IMMENSIVA × NUBIA. It provides continuous shared spaces to explore XR, AI, robotics, and creative coding through facilitated open labs, collaborative hack-labs, knowledge exchange, and sector connectivity. A central pillar is an open-source repository of projects, documentation, methodologies, and code to strengthen the Catalan digital culture ecosystem through transparent knowledge sharing and long-term accessibility.`;
-
-    document.getElementById("copySummary")?.addEventListener("click", async () => {
-      try{
-        await navigator.clipboard.writeText(summary);
-        const btn = document.getElementById("copySummary");
-        const old = btn.textContent;
-        btn.textContent = "Copied ✓";
-        setTimeout(()=> btn.textContent = old, 1200);
-      }catch(err){
-        alert("Copy failed. You can manually select and copy from the page source.");
+      function typeNext() {
+        if (idx >= lines.length) return;
+        const line = lines[idx];
+        let c = 0;
+        const speed = 12 + Math.random()*10;
+        const interval = setInterval(() => {
+          consoleEl.textContent += line.charAt(c);
+          c++;
+          if (c >= line.length) {
+            clearInterval(interval);
+            consoleEl.textContent += "\n";
+            idx++;
+            typing = setTimeout(typeNext, 120 + Math.random()*160);
+          }
+        }, speed);
       }
+      typeNext();
+    }
+
+    // Re-type console on language change
+    const observer = new MutationObserver(() => {
+      const lang = document.body.getAttribute("data-lang");
+      typeLines(lang === "en" ? linesEN : linesCA);
     });
+    observer.observe(document.body, { attributes: true, attributeFilter: ["data-lang"] });
+
+    // initial
+    typeLines(document.body.getAttribute("data-lang") === "en" ? linesEN : linesCA);
+
+    // Copy summaries
+    const summaryCA =
+`Laboratori Constel·lació (Constellation Labs) és una infraestructura compartida, estable i sense finalitat comercial per a la recerca aplicada, l’aprenentatge i la col·laboració avançada en cultura digital, impulsada per l’Asociación encontrArte i allotjada a Espronceda (Barcelona). S’adreça en exclusiva a professionals de la cultura digital a Catalunya i opera amb Open Labs facilitats, Hack-Labs col·laboratius, sessions de transferència, i matchmaking P2P/B2B, amb protocols d’ètica d’IA, seguretat de dades i accessibilitat XR. Un pilar central és el repositori open-source (projectes, metodologies, fluxos de treball i codi) per reforçar el ecosistema català a llarg termini.`;
+    const summaryEN =
+`Constellation Labs is a stable, non-commercial shared infrastructure for applied research, learning, and advanced collaboration in digital culture, led by Asociación encontrArte and hosted at Espronceda (Barcelona). It is exclusively aimed at digital culture professionals in Catalonia and operates through facilitated Open Labs, collaborative Hack-Labs, transfer sessions, and P2P/B2B matchmaking, supported by AI ethics, data security, and XR accessibility protocols. A core pillar is an open-source repository (projects, methodologies, workflows, and code) to strengthen Catalonia’s ecosystem long-term.`;
+
+    async function copy(text, btn){
+      try{
+        await navigator.clipboard.writeText(text);
+        const old = btn.textContent;
+        btn.textContent = (document.body.getAttribute("data-lang")==="en") ? "Copied ✓" : "Copiat ✓";
+        setTimeout(()=> btn.textContent = old, 1200);
+      }catch(e){
+        alert((document.body.getAttribute("data-lang")==="en")
+          ? "Copy failed. Please copy from the page source."
+          : "No s’ha pogut copiar. Copia-ho des del codi font.");
+      }
+    }
+    const copyBtnCA = document.getElementById("copySummary");
+    const copyBtnEN = document.getElementById("copySummaryEN");
+    copyBtnCA?.addEventListener("click", () => copy(summaryCA, copyBtnCA));
+    copyBtnEN?.addEventListener("click", () => copy(summaryEN, copyBtnEN));
   </script>
 </body>
 </html>
