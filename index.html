@@ -81,16 +81,13 @@
       padding:14px 0; gap:14px;
     }
     .brand{display:flex; align-items:center; gap:12px; min-width: 280px;}
-    .logo{
-      width:36px; height:36px; border-radius:12px;
-      background:
-        radial-gradient(10px 10px at 25% 25%, rgba(255,255,255,0.55), transparent 55%),
-        radial-gradient(16px 16px at 70% 70%, rgba(124,224,255,0.55), transparent 60%),
-        linear-gradient(135deg, rgba(183,185,255,0.62), rgba(124,255,178,0.28));
-      border:1px solid rgba(255,255,255,.18);
-      box-shadow:0 10px 30px rgba(0,0,0,.35);
-      position:relative; overflow:hidden;
-    }
+   .logoImg{
+  width:36px;
+  height:36px;
+  object-fit:contain;
+  border-radius:12px;
+}
+
     .logo:after{
       content:""; position:absolute; inset:-40%;
       background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.28), transparent 55%);
@@ -434,7 +431,7 @@
     <div class="wrap">
       <div class="inner">
         <div class="brand">
-          <div class="logo" aria-hidden="true"></div>
+          <img src="/conLablogo.jpeg" alt="Laboratori Constel·lació logo" class="logoImg"
           <div>
             <h1 id="brandTitle">LABORATORI CONSTEL·LACIÓ</h1>
             <div class="sub" id="brandSub">Hack Lab • Infraestructura compartida • Barcelona</div>
